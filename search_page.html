@@ -41,6 +41,9 @@
                             <button class="btn btn-warning" type="submit"><span class="bi bi-search"></span></button>
                         </div>
                         <li class="nav-item px-1">
+                            <a class="nav-link btn btn-dark fs-5" href="#"><span class="bi bi-tags-fill"></span></a>
+                        </li>
+                        <li class="nav-item px-1">
                             <a class="nav-link btn btn-dark fs-5" href="#"><span class="bi bi-person-fill"></span></a>
                         </li>
                         <li class="nav-item px-1">
@@ -109,7 +112,7 @@
                             <div id="accSubPanel" class="accordion-collapse collapse show" aria-labelledby="accHeading">
                                 <div class="accordion-body small pt-1">
                                     <div class="form-check">
-                                        <label class="form-check-label" for="acc-jewelryCheck"><input class="form-check-input" type="checkbox" id="acc-jewelryCheck" checked>Jewelry <span class="badge border bg-body text-dark">0</span></label>
+                                        <label class="form-check-label" for="acc-jewelryCheck"><input class="form-check-input" type="checkbox" id="acc-jewelryCheck" onchange="toggleSubcatCheck(this, 'accTag-jewelry')" checked>Jewelry <span class="badge border bg-body text-dark">0</span></label>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label" for="acc-keyCheck"><input class="form-check-input" type="checkbox" id="acc-keyCheck" checked>Key Chains &amp; Lanyards <span class="badge border bg-body text-dark">0</span></label>
@@ -228,7 +231,14 @@
                             <button class="btn btn-outline-danger dropdown-toggle m-1" type="button" id="artTag" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                 Art</button>
                             <ul class="dropdown-menu px-2">
-                                <li><h6 class="dropdown-header ps-0 py-1">Category Tags</h6></li>
+                                <li><h6 class="dropdown-header ps-0 py-1">Subject Matter</h6></li>
+                                <li class="form-check"><label class="form-check-label" for="artTag-anime"><input class="form-check-input" type="checkbox" id="artTag-anime">Anime</label></li>
+                                <li class="form-check"><label class="form-check-label" for="artTag-cartoons"><input class="form-check-input" type="checkbox" id="artTag-cartoons">Cartoons</label></li>
+                                <li class="form-check"><label class="form-check-label" for="artTag-movies"><input class="form-check-input" type="checkbox" id="artTag-movies">Movies</label></li>
+                                <li class="form-check"><label class="form-check-label" for="artTag-tv"><input class="form-check-input" type="checkbox" id="artTag-tv">TV Shows</label></li>
+                                <li class="form-check"><label class="form-check-label" for="artTag-video"><input class="form-check-input" type="checkbox" id="artTag-video">Video Games</label></li>
+                                <li class="form-check"><label class="form-check-label" for="artTag-other"><input class="form-check-input" type="checkbox" id="artTag-other">Other</label></li>
+                                <li><h6 class="dropdown-header ps-0 py-1">Value Factors</h6></li>
                                 <li class="form-check"><label class="form-check-label" for="artTag-autographed"><input class="form-check-input" type="checkbox" id="artTag-autographed">Autographed</label></li>
                                 <li class="form-check"><label class="form-check-label" for="artTag-numbered"><input class="form-check-input" type="checkbox" id="artTag-numbered">Numbered Edition</label></li>
                                 <li class="form-check"><label class="form-check-label" for="artTag-original"><input class="form-check-input" type="checkbox" id="artTag-original">Original</label></li>
@@ -238,8 +248,24 @@
                             <button class="btn btn-outline-info dropdown-toggle m-1" type="button" id="accTag" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                 Accessories</button>
                             <ul class="dropdown-menu px-2">
-                                <li><h6 class="dropdown-header ps-0 py-1">Category Tags</h6></li>
-                                <li class="form-check"><label class="form-check-label" for="accTag-"><input class="form-check-input" type="checkbox" id="accTag-">Autographed</label></li>
+                                <li><h6 class="dropdown-header ps-0 py-1">Field of Reference</h6></li>
+                                <li class="form-check"><label class="form-check-label" for="accTag-anime"><input class="form-check-input" type="checkbox" id="accTag-anime">Anime</label></li>
+                                <li class="form-check"><label class="form-check-label" for="accTag-cartoons"><input class="form-check-input" type="checkbox" id="accTag-cartoons">Cartoons</label></li>
+                                <li class="form-check"><label class="form-check-label" for="accTag-movies"><input class="form-check-input" type="checkbox" id="accTag-movies">Movies</label></li>
+                                <li class="form-check"><label class="form-check-label" for="accTag-tv"><input class="form-check-input" type="checkbox" id="accTag-tv">TV Shows</label></li>
+                                <li class="form-check"><label class="form-check-label" for="accTag-video"><input class="form-check-input" type="checkbox" id="accTag-video">Video Games</label></li>
+                                <li class="form-check"><label class="form-check-label" for="accTag-other"><input class="form-check-input" type="checkbox" id="accTag-other">Other</label></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle m-1" type="button" id="accTag-jewelry" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                Accessories: Jewelry</button>
+                            <ul class="dropdown-menu px-2">
+                                <li><h6 class="dropdown-header ps-0 py-1">Type</h6></li>
+                                <li class="form-check"><label class="form-check-label" for="accTag-jewelry-bracelets"><input class="form-check-input" type="checkbox" id="accTag-jewelry-bracelets">Bracelets</label></li>
+                                <li class="form-check"><label class="form-check-label" for="accTag-jewelry-earrings"><input class="form-check-input" type="checkbox" id="accTag-jewelry-earrings">Earrings</label></li>
+                                <li class="form-check"><label class="form-check-label" for="accTag-jewelry-necklaces"><input class="form-check-input" type="checkbox" id="accTag-jewelry-necklaces">Necklaces</label></li>
+                                <li class="form-check"><label class="form-check-label" for="accTag-jewelry-rings"><input class="form-check-input" type="checkbox" id="accTag-jewelry-rings">Rings</label></li>
                             </ul>
                         </div>
                         <div class="dropdown">
@@ -486,6 +512,7 @@
                                 <li class="form-check"><label class="form-check-label" for="toyTag-power"><input class="form-check-input" type="checkbox" id="toyTag-power">Power Rangers</label></li>
                                 <li class="form-check"><label class="form-check-label" for="toyTag-predator"><input class="form-check-input" type="checkbox" id="toyTag-predator">Predator</label></li>
                                 <li class="form-check"><label class="form-check-label" for="toyTag-sega"><input class="form-check-input" type="checkbox" id="toyTag-sega">SEGA</label></li>
+                                <li class="form-check"><label class="form-check-label" for="toyTag-starTrek"><input class="form-check-input" type="checkbox" id="toyTag-starTrek">Star Trek</label></li>
                                 <li class="form-check"><label class="form-check-label" for="toyTag-starWars"><input class="form-check-input" type="checkbox" id="toyTag-starWars">Star Wars</label></li>
                                 <li class="form-check"><label class="form-check-label" for="toyTag-stranger"><input class="form-check-input" type="checkbox" id="toyTag-stranger">Stranger Things</label></li>
                                 <li class="form-check"><label class="form-check-label" for="toyTag-twd"><input class="form-check-input" type="checkbox" id="toyTag-twd">The Walking Dead</label></li>
