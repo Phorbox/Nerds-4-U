@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+<style>
+    .h1 {
+        padding-top: 0em;
+    }
+
+    .container {
+        padding: 16px;
+        background-color: white;
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        height: 760px;
+        margin-top: -150px;
+        width: 500px;
+        margin-left: -200px;
+        border: 12px solid darkslategray;
+        border-radius: 10px;
+    }
+
+    input[type=text],
+    input[type=password] {
+        width: 85%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+
+    .person_info input[type=text] {
+
+        width: 40.5%;
+    }
+
+    .person_info-label {
+
+        width: 315px;
+    }
+
+    .person_info-label2 {
+
+        width: 275px;
+    }
+
+    hr {
+        border: 2px solid #00A8E1;
+        opacity: 0.4;
+    }
+
+    .register-container {
+        padding-left: 100px;
+        padding-top: 20px;
+    }
+
+    .registerBtn {
+        background-color: darkgreen;
+        border-color: transparent;
+        width: 80%;
+        color: black;
+        cursor: pointer;
+        opacity: 0.9;
+        padding: 16px 20px;
+    }
+
+    a {
+        color: dodgerblue;
+    }
+</style>
+
+<div class="alertMsg">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="contain">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+<div class="container">
+
+
+    <h1>Register</h1>
+    <p1>Fill out this form to create an account for Nerds4Us</p1>
+    <hr>
+    <form action="" method="post">
+        <div class="account_info-label">
+            <label for="email"><b>Email Address</b></label>
+        </div>
+        <input type="text" placeholder="example@gmail.com" name="email" id="email"
+            pattern="(^[a-zA-Z0-9_.+-]{1,255}@[a-zA-Z0-9-]{1,255}\.[a-zA-Z0-9-.]{1,255}$)" required>
+        <label for="username"><b>Username</b></label>
+        <input type="text" placeholder="XxUsernamexX" name="username" id="username" pattern="^.{1,255}" required>
+        <div class="account_info-label">
+            <label for="password"><b>Password</b></label>
+        </div>
+        <input type="password" placeholder="Password" name="password" id="password" required>
+        <div class="account_info-label">
+            <label for="password-repeat"><b>Repeat Password</b></label>
+        </div>
+        <input type="password" placeholder="Repeat Password" id="password-repeat" required>
+        <label for="phone_number"><b>Phone Number</b></label>
+        <input type="text" placeholder="210-123-1234" name="phone_number" id="phone_number"
+            pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" required>
+        <div class="person_info">
+            <div class="person_info-label">
+                <label><b>First Name</b></label>
+                <label style="float:right;"><b>Last Name</b></label>
+            </div>
+            <input type="text" placeholder="Firstname" name="first_name" id="first_name"
+                pattern="^([A-Z]{1}[a-zA-Z]{1,255})" required>
+            <input type="text" placeholder="Lastname" name="last_name" id="last_name"
+                pattern="^([A-Z]{1}[a-zA-Z]{1,255})" required>
+
+            <div class="person_info-label2">
+                <label><b>Street Address</b></label>
+                <label style="float: right;"><b>State</b></label>
+            </div>
+            <input type="text" placeholder="123 Main St" name="street_address" pattern="^[0-9]{1,255}.*"
+                id="street_address" required>
+            <input type="text" placeholder="CA" name="state" id="state" pattern="^[A-Z]{2}" required>
+
+        </div>
+
+        <hr>
+
+        <input type="checkbox">
+        <p1> Do you agree to our <a href="#">terms of services</a>?</p1>
+        <div class="register-container">
+            <button type="submit" class="registerBtn" id="registerBtn">Register</button>
+        </div>
+    </form>
+
+</div>
+
+
+</html>
