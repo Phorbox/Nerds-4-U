@@ -72,8 +72,9 @@
         
         <div class="container d-flex shadow-lg rounded-3 bg-body p-3 mb-5">
             <div class="col-auto">
-                <div class="bg-dark text-center" style="width: 20vw; height: 20vw;">
-                    <a href="#"><img src="" class="h-100"></a>
+                <div class="bg-body text-center" style="width: 20vw; height: 20vw;">
+<!-- Image goes in here --->
+                    <img src="" class="h-100">
                 </div>
                 <h6 class="small mt-1 mb-0">Seller: seller_id.name</h6>
             </div>
@@ -84,36 +85,61 @@
                     <h5 class="text-danger pt-1">Price: &#36;420.69</h5>
                     <p class="fs-5 text-end">Qty Available: 1</p>
                 </div>
-                <dl class="row">
-                    <dt class="col-5">Category</dt>
-                    <dd class="col-7">Comics</dd>
-                    <br>
-                    <dt class="col-5">Subcategory</dt>
-                    <dd class="col-7">Superhero</dd>
-                    <br>
-                    <dt class="col-5">Tags</dt>
-                    <dd class="col-7">DC, GOLDEN-AGE, PRE-CRISIS</dd>
-                </dl>
+                <div class="row">
+                    <div class="col-auto">
+                        <p class="fw-bold">Category</p>
+                        <p class="fw-bold">Subcategory</p>
+                        <p class="fw-bold">Tags</p>
+                    </div>
+                    <div class="col">
+                        <p>Comics</p>
+                        <p>Superhero</p>
+                        <p>DC, GOLDEN-AGE, PRE-CRISIS</p>
+                    </div>
+                </div>
                 <hr class="mt-0">
                 <h6>About this item</h6>
                 <p>Copypasta is a term for a block of text that has been copied and pasted multiple times. It is often jumbled, disjointed or ridiculous in some way. Copypasta makes its way across a social media platform, forum or email chain to reach multiple users.Copypasta is a term for a block of text that has been copied and pasted multiple times. It is often jumbled, disjointed or ridiculous in some way.</p>
             </div>
             <div class="col-auto">
-                <h6>Your Cart</h6>
-                <hr class="mt-2 mb-2">
-                <div class="row mb-3">
-                    <div class="col-auto">
-                        <h6>Items</h6>
-                        <h6>Total Price</h6>
-                        <h6 class="text-danger text-end">&#43; &#36;420.69</h6>
+<!-- show by default, hide when item already in cart -->
+                <div name="cartAdd">
+                    <h6>Shopping Cart:</h6>
+                    <div class="row mb-2">
+                        <div class="col-auto">
+                            <p class="fw-bold mb-1">Items</p>
+                            <p class="fw-bold mb-1">Subtotal</p>
+                            <p class="text-danger text-end mb-1">&#43;</p>
+                            <p class="text-end mb-0">&#61;</p>
+                        </div>
+                        <div class="col ps-0">
+                            <p class="mb-1">3</p>
+                            <p class="mb-1">&#36;30.00</p>
+                            <p class="text-danger mb-1">&#36;420.69</p>
+                            <p class="mb-1">&#36;450.69</p>
+                        </div>
                     </div>
-                    <div class="col ps-0">
-                        <p class="mb-1">3</p>
-                        <p class="mb-1">&#36;20.00</p>
-                        <p class="mb-1">&#36;440.69</p>
+                    <div class="text-center"><button type="button" class="btn btn-warning">Add to Cart</button></div>
+                </div>
+<!-- hide by default, show when item is already in cart -->
+                <div name="cartRemove">
+                    <h6>Shopping Cart:</h6>
+                    <div class="row mb-2">
+                        <div class="col-auto">
+                            <p class="fw-bold mb-1">Items</p>
+                            <p class="fw-bold mb-1">Subtotal</p>
+                            <p class="text-danger text-end mb-1">&#45;</p>
+                            <p class="text-end mb-0">&#61;</p>
+                        </div>
+                        <div class="col ps-0">
+                            <p class="mb-1">4</p>
+                            <p class="mb-1">&#36;450.69</p>
+                            <p class="text-danger mb-1">&#36;420.69</p>
+                            <p class="mb-1">&#36;30.00</p>
+                        </div>
                     </div>
-                </div>                 
-                <div class="text-center"><button type="button" class="btn btn-warning">Add to Cart</button></div>
+                    <div class="text-center"><button type="button" class="btn btn-danger">Remove from Cart</button></div>
+                </div>
             </div>
         </div>
         
