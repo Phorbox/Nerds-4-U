@@ -12,13 +12,34 @@ TABLE_NAME = "product_information"
 def Get_Product_By_Catagory(category):
     cursor = db.cursor()
 
-    print(TABLE_NAME)
-    print(category)
-
-
     cursor.execute("SELECT * FROM product_information where catagory = '" + category + "'")
     array = cursor.fetchall()
     return (array)
 
+def Get_Product_By_Category_If_Valid(array, category):
+    cursor = db.cursor()
+    test = "%" + str(array[0][9]) + "%"
+    # make a new string with spliced list
+    cursor.execute("SELECT * FROM product_information where catagory like '%" + category + "%' AND  tags like '" + test + "'")
+    array = cursor.fetchall()
+    return (array)
+
+def Get_Product_By_Tag(tag):
+    cursor = db.cursor()
+    print(tag)
+    cursor.execute("SELECT * FROM product_information where tags like '%" + tag + "%'")
+    array = cursor.fetchall()
+    return (array)
+
+def Insert_New_Product(list_of_tags,title,description, image,dollar,cent,quantity):
+    
+    cursor = db.cursor()
+
+    sql="INSERT INTO product_information (name, price, picture_id, seller_id, description, quantity, remaining_item, catagory, sub_category, tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    
+    #### CHANGE PRICE (DOLLAR) TO ACTUAL SUM OF DOLLAR + CENT
+    val = (title, dollar, image, 1, description, quantity, "10", "#", "#", str(list_of_tags))
+    cursor.execute(sql,val)
+    db.commit()
 
 

@@ -11,14 +11,6 @@ def Push_To_Database(       Username, Email, Password, First, Last, Street, Stat
     sql.format(TABLE_NAME,Username, Email, Password, First, Last, Street, State,phone)
     My_Cursor.execute(sql)
 
-# # Temp Method returns input as an array
-# # would prefer that it runs a sql search of input arguments
-# def Run_Dupe_SQL_Search(Username,Email):
-#     My_Cursor = db.cursor()
-#     sql = "select (Username, Email) from {table} where  (Username, Email) EQUALS"
-#     sql.format(Username, Email)
-#     My_Cursor.execute(sql)
-#     return My_Cursor.fetchone()
     
 def Dupe_Name_Search(Username):
     My_Cursor = db.cursor()
