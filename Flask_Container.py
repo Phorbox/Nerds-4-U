@@ -1,13 +1,11 @@
 from re import A
 import sys
 import os
-import Create_User
 
 import mysql.connector
 from flask import Flask, jsonify,request, render_template,send_from_directory,redirect,url_for,session, flash
 
-from Product_Information import Get_Product_By_Catagory, Get_Product_By_Category_If_Valid, Get_Product_By_Tag, Insert_New_Product
-
+from PY_Files  import Product_Information,Create_User
 
 app = Flask(__name__)
 
@@ -49,7 +47,7 @@ def homepage():
 
         # Does it have an Art Category?
 
-        array_cat = Get_Product_By_Category_If_Valid(result, '%Art%')
+        array_cat = Product_Information.Get_Product_By_Category_If_Valid(result, '%Art%')
         session["array_cat"] = array_cat
         print(len(array_cat))
         # Does it have an Accessories Category?
@@ -65,9 +63,9 @@ def homepage():
     ################################################################################################
     # Call function to perform SQL Query on specified categories (returns array containing tuples) #
                                                                                                    #
-    art_products = Get_Product_By_Catagory('Art')                                                  #
-    comic_products = Get_Product_By_Catagory('Comics')                                             #
-    toy_products = Get_Product_By_Catagory('Toys & Models')                                        #
+    art_products = Product_Information.Get_Product_By_Catagory('Art')                                                  #
+    comic_products = Product_Information.Get_Product_By_Catagory('Comics')                                             #
+    toy_products = Product_Information.Get_Product_By_Catagory('Toys & Models')                                        #
 
     #####################################################################################
     # Recurse through each tuple, only returning the third data column (the image id's) #
