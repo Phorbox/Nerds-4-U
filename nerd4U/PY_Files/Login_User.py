@@ -1,4 +1,4 @@
-import SQL_Queries
+from PY_Files import SQL_Queries
 
 def Login_User(Username,Password):
     if(not(Check_Username(Username))):

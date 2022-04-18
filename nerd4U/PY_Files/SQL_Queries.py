@@ -1,5 +1,5 @@
 import mysql.connector
-import CONSTANTS
+from PY_Files import CONSTANTS
 DB = mysql.connector.connect(host = CONSTANTS.HOST, user =  CONSTANTS.USER, password = CONSTANTS.PASSWORD, database = CONSTANTS.DATABASE)
 
 
@@ -11,25 +11,41 @@ def Push_To_User_Table(Username, Email, Password, First, Last, Street, State, ph
     My_Cursor.execute(sql)
 
 def Get_Email(Email):
-    return Get_Any(CONSTANTS.USER_TABLE,"Email", Email)
+
+    return Select_Any(CONSTANTS.USER_TABLE,"Email","Email", Email)
 
 def Get_Username(Username):
-    return Get_Any(CONSTANTS.USER_TABLE,"Username", Username)
+    return Select_Any(CONSTANTS.USER_TABLE,"Username","Username", Username)
 
 def Get_Password(Pass):
-    return Get_Any(CONSTANTS.USER_TABLE,"Pass", Pass)
+    return Select_Any(CONSTANTS.USER_TABLE,"Pass","Pass", Pass)
 
 
 # Get_Any searches U
 # 
 # 
-def Get_Any(Table, Attribute, Specifically):
+def Select_Any(Table, Select_List, Attribute_List, Value_List):
     My_Cursor = DB.cursor()
-    sql = "Select ({}) From {} Where ({}) = '{}'"
-    sql = sql.format(Attribute,Table,Attribute,Specifically)
+    sql = "Select ({}) From {} Where {}"
+    Where = Format_Where_Statement(Attribute_List, Value_List)
+    sql = sql.format(Select_List,Table,Where)
     My_Cursor.execute(sql)
     
     return Clean_Result(My_Cursor.fetchone())
 
+
 def Clean_Result(dirty):
     return dirty[0]
+
+
+def Format_Where_Statement(Attribute_List,Value_List):
+    sql = "({}) = '{}'"
+    returner = ""
+
+    for x,y in zip(Attribute_List,Value_List):
+        returner += sql.format(x,y)
+        returner += " and "
+
+    returner = returner[:-len(" and ")]
+    return (returner)
+            

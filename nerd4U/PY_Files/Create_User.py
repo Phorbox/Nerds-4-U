@@ -1,5 +1,4 @@
-import SQL_Queries
-import REGEX
+from PY_Files import SQL_Queries,REGEX
 
 
 # sql.format(USER_TABLE,UID,USERNAME,EMAIL,PASSWORD,FIRST,LAST,STREET,STATE,SCORE,PHONE,PRIMARY)

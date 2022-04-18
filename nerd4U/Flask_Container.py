@@ -1,7 +1,7 @@
 from re import A
 import sys
 import os
-from PY_Files import Create_User,Login_User,CONSTANTS
+from PY_Files import Create_User,Login_User,CONSTANTS,SQL_Queries
 
 
 from flask import Flask, jsonify,request, render_template,send_from_directory,redirect,url_for,session, flash
@@ -90,11 +90,9 @@ def login():
 
 @app.route('/userRegristration', methods=['GET','POST'])
 def register():
-    print("WE ARE HERE")
     if request.method == 'POST':
         
         username =          request.form['username']
-        print("username: " + username)
         email =             request.form['email']
         password =          request.form['password']
         first_name =        request.form['first_name']
