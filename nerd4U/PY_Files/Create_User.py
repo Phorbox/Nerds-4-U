@@ -3,11 +3,6 @@ from PY_Files import SQL_Queries,REGEX
 
 # sql.format(USER_TABLE,UID,USERNAME,EMAIL,PASSWORD,FIRST,LAST,STREET,STATE,SCORE,PHONE,PRIMARY)
 def Create_User(Username, Email, Password, First, Last, Street, State, Phone):
-
-    Code = Verify_Validity(Username,Email)
-    if (Code != 0):
-        return Valid_Statement(Code)
-
     Code = Verify_Duplicate(Username,Email)
     if (Code != 0):
         return Dupe_Statement(Code)
@@ -36,7 +31,6 @@ def Dupe_Statement(Dupe_Code):
 def Verify_Duplicate(Username,Email):
     Temp_SQL_Results = Run_Dupe_SQL_Search(Username,Email)
     Dupe_Code = 0
-
     if(Username == Temp_SQL_Results[0]):
         Dupe_Code +=1
 
@@ -49,34 +43,3 @@ def Run_Dupe_SQL_Search(Username,Email):
     a = SQL_Queries.Get_Username(Username)
     b = SQL_Queries.Get_Email(Email)
     return [a,b]    
-
-# Verify_Duplicate returns an int code of possible duplication
-# 0 is Valid
-# 1 is Invalid Email
-# 2 is Invalid Phone
-# 3 is Invalid Both    
-def Verify_Validity(Email,Phone):
-    Valid_Code = 0
-
-    if(REGEX.Regex_Email(Email)):
-        print("pingmail")
-        Valid_Code +=1
-
-    if(REGEX.Regex_Phone(Phone)):
-        print("phonping")
-        Valid_Code +=2
-
-    return Valid_Code
-
-# Returns a string from a Dupe code
-def Valid_Statement(Valid_Code):
-    if (Valid_Code == 1):
-        Dupe_Statement = "Please check Email, Invalid Email Address"
-    if (Valid_Code == 2):
-        Dupe_Statement = "Please check Phone, Invalid Phone Number"
-    if (Valid_Code == 3):
-        Dupe_Statement = "Please check Email and Phone, Both are Invalid"
-    return Dupe_Statement
-
-def checkEmpty():
-    pass
