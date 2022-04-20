@@ -5,8 +5,11 @@ import os
 import mysql.connector
 from flask import Flask, jsonify, request, render_template, send_from_directory, redirect, url_for, session, flash
 
+from sympy import Product
+
 
 from PY_Files import Create_User, Login_User, CONSTANTS, SQL_Queries, Product_Information
+
 
 app = Flask(__name__)
 
@@ -43,17 +46,28 @@ def homepage():
 
         # Does it have an Art Category?
 
-        array_cat = Product_Information.Get_Product_By_Category_If_Valid(
-            result, '%Art%')
-        session["array_cat"] = array_cat
-        print(len(array_cat))
+        array_art = Product_Information.Get_Product_By_Category_If_Valid(result, '%Art%')
+        session["array_art"] = array_art
+        
         # Does it have an Accessories Category?
+
+        array_acc = Product_Information.Get_Product_By_Category_If_Valid(result, '%Accessories%')
+        session["array_acc"] = array_acc
 
         # Does it have an Comic Category?
 
+        array_com = Product_Information.Get_Product_By_Category_If_Valid(result, '%Comics%')
+        session["array_com"] = array_com
+
         # Does it have an Trading Card Category?
 
-        # Does it have an Toys and Models?
+        array_trading = Product_Information.Get_Product_By_Category_If_Valid(result, "%Trading Card%")
+        session["array_trading"] = array_trading 
+
+        # Does it have an Toys and Models Category?
+
+        array_toys_and_models = Product_Information.Get_Product_By_Category_If_Valid(result, "%Toys & Models%")
+        session["array_toys_and_models"] = array_toys_and_models
 
         return redirect(url_for('searchpage'))
 
@@ -70,18 +84,17 @@ def homepage():
     #####################################################################################
     # Recurse through each tuple, only returning the third data column (the image id's) #
     #####################################################################################
-    #
-    #
-    art_img_ids = (tuple(map(lambda x: x[2], art_products)))
-    #
-    #
-    comic_img_ids = (
-        tuple(map(lambda x: x[2], comic_products)))                        #
-    #
-    #
-    #
-    toy_img_ids = (tuple(map(lambda x: x[2], toy_products)))
-    #
+                                                                                        #
+                                                                                        #
+    art_img_ids = (tuple(map(lambda x: x[2], art_products)))                            #
+                                                                                        #
+                                                                                        #
+    comic_img_ids = (tuple(map(lambda x: x[2], comic_products)))                        #
+                                                                                        #
+                                                                                        #
+                                                                                        #
+    toy_img_ids = (tuple(map(lambda x: x[2], toy_products)))                            #
+                                                                                        #
 
     return render_template('homepage.html',
                            art_img_ids=art_img_ids,
@@ -163,9 +176,17 @@ def searchpage():
     # If session["search"] is empty do not display any boxes
 
     result = session["search"]
-    array_cat = session["array_cat"]
-    print(array_cat)
-    return render_template('searchpage.html', result=result, array_cat=array_cat)
+    array_art = session["array_art"]
+    array_acc = session["array_acc"]
+    array_com = session["array_com"]
+    array_trading = session["array_trading"]
+    array_toys_and_models = session["array_toys_and_models"]
+    return render_template('searchpage.html', result = result
+                                            , array_art = array_art
+                                            , array_acc = array_acc
+                                            , array_com = array_com
+                                            , array_trading = array_trading
+                                            , array_toys_and_models = array_toys_and_models)
 
 
 @app.route('/createListing', methods=['GET', 'POST'])
@@ -183,7 +204,7 @@ def createListing():
         dollar = request.form['dollar']
         cent = request.form['cent']
         quantity = request.form['quantity']
-        Insert_New_Product(list_of_tags, title, description,
+        Product_Information.Insert_New_Product(list_of_tags, title, description,
                            image, dollar, cent, quantity)
         return redirect(url_for('homepage'))
 

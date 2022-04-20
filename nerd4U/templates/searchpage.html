@@ -116,7 +116,7 @@
                     <hr class="m-0"/>
                     
                     <div class="accordion accordion-flush">
-                        {% if array_cat %}
+                        {% if array_art %}
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="artHeading">
                                 <button class="accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#artSubsPanel" aria-expanded="true" aria-controls="artSubsPanel">
@@ -142,6 +142,7 @@
                             </div>
                         </div>
                         {% endif %}
+                        {% if array_acc %}
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="accHeading">
                                 <button class="accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#accSubPanel" aria-expanded="true" aria-controls="accSubPanel">
@@ -166,6 +167,8 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
+                        {% if array_com %}
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="comHeading">
                                 <button class="accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#comSubPanel" aria-expanded="true" aria-controls="comSubPanel">
@@ -196,6 +199,8 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
+                        {% if array_trading %}
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="cardHeading">
                                 <button class="accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#cardSubPanel" aria-expanded="true" aria-controls="cardSubPanel">
@@ -217,6 +222,8 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
+                        {% if array_toys_and_models %}
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="toyHeading">
                                 <button class="accordion-button p-2" type="button" data-bs-toggle="collapse" data-bs-target="#toySubPanel" aria-expanded="true" aria-controls="toySubPanel">
@@ -247,6 +254,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
                 
