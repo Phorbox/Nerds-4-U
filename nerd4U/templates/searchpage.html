@@ -656,7 +656,7 @@
                     </div>
                     <section class="container1">
                     {%for results in result%}
-                        <div class="card_box"><img class="box" src="{{url_for('send_image', filename=results[2]+'.jpg')}}"><p>{{results[0]}}</p></div>
+                        <div class="card_box"><img class="box" src="{{url_for('send_image', filename=results[3]+'.jpg')}}"><p>{{results[1]}}</p></div>
                     {%endfor%}
                     </section>
                   

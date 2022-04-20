@@ -18,7 +18,7 @@ def Get_Product_By_Catagory(category):
 
 def Get_Product_By_Category_If_Valid(array, category):
     cursor = db.cursor()
-    test = "%" + str(array[0][9]) + "%"
+    test = "%" + str(array[0][10]) + "%"
     # make a new string with spliced list
     cursor.execute("SELECT * FROM product_information where catagory like '%" + category + "%' AND  tags like '" + test + "'")
     array = cursor.fetchall()

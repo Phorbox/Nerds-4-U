@@ -50,6 +50,7 @@ def homepage():
 
         array_art = Product_Information.Get_Product_By_Category_If_Valid(result, '%Art%')
         session["array_art"] = array_art
+
         
         # Does it have an Accessories Category?
 
@@ -97,8 +98,7 @@ def homepage():
                                                                                         #
     toy_img_ids = (tuple(map(lambda x: x[3], toy_products)))                            #
                                                                                         #
-    print(art_img_ids)
-    print(comic_img_ids)
+   
     return render_template('homepage.html',
                            art_img_ids=art_img_ids,
                            comic_img_ids=comic_img_ids,
@@ -116,7 +116,7 @@ def send_image(filename):
 
     # Display images
 
-    return send_from_directory("Images", filename)
+    return send_from_directory("../Images", filename)
 
 
 ## User Login Page ##
