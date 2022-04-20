@@ -2,6 +2,8 @@ from re import A
 import sys
 import os
 
+#password: passwordtodb123!
+
 import mysql.connector
 from flask import Flask, jsonify, request, render_template, send_from_directory, redirect, url_for, session, flash
 
@@ -86,16 +88,17 @@ def homepage():
     #####################################################################################
                                                                                         #
                                                                                         #
-    art_img_ids = (tuple(map(lambda x: x[2], art_products)))                            #
+    art_img_ids = (tuple(map(lambda x: x[3], art_products)))                            #
                                                                                         #
                                                                                         #
-    comic_img_ids = (tuple(map(lambda x: x[2], comic_products)))                        #
+    comic_img_ids = (tuple(map(lambda x: x[3], comic_products)))                        #
                                                                                         #
                                                                                         #
                                                                                         #
-    toy_img_ids = (tuple(map(lambda x: x[2], toy_products)))                            #
+    toy_img_ids = (tuple(map(lambda x: x[3], toy_products)))                            #
                                                                                         #
-
+    print(art_img_ids)
+    print(comic_img_ids)
     return render_template('homepage.html',
                            art_img_ids=art_img_ids,
                            comic_img_ids=comic_img_ids,
