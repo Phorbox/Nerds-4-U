@@ -14,8 +14,8 @@ TABLE_NAME = "product_information"
 def Get_Product_By_Catagory(category):
     cursor = db.cursor()
 
-    print(TABLE_NAME)
-    print(category)
+    # print(TABLE_NAME)
+    # print(category)
 
     cursor.execute(
         "SELECT * FROM product_information where catagory = '" + category + "'")

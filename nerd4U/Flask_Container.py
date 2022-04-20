@@ -74,24 +74,17 @@ def login():
         # Create variables for easy access
 
         username = request.form['username']
-        password = request.form['password']
+        passw = request.form['password']
 
-        # Check if account exists using MySQL
-        cursor = DB.cursor()
-        cursor.execute(
-            'SELECT * FROM user_information WHERE username = %s AND pass = %s', (username, password))
-
-        # Fetch one record and return result
-        account = cursor.fetchone()
-
-        # If account exists in accounts table in out database
-        if account:
-            # Redirect to home page
-            flash('Login Successful!')
-            return redirect(url_for('homepage'))
+        account = Login_User.Login_User(username,passw)
+        if account == "none":
+            flash('Incorrect User informatio')
         else:
-            # Account doesnt exist or username/password incorrect
-            flash('Login Unsuccessful')
+            
+            flash('Login Sucessful')
+            # Redirect to home page
+            return redirect(url_for('homepage'))
+            
     # Show the login form with message (if any)
 
     return render_template('login.html')
@@ -112,7 +105,7 @@ def register():
 
         tempflash = Create_User.Create_User(
             username, email, password, first_name, last_name, street_address, state, phone_number)
-        print(tempflash)
+        # print(tempflash)
         flash(tempflash)
 
     return render_template('register_page.html')

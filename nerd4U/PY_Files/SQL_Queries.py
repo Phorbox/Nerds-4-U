@@ -13,6 +13,8 @@ def Push_To_User_Table(Username, Email, Password, First, Last, Street, State, ph
     My_Cursor.execute(sql)
 
 
+
+
 def Get_Email(Email):
     return Select_Any(CONSTANTS.USER_TABLE, "Email", ["Email"], [Email])
 
@@ -25,6 +27,11 @@ def Get_Password(Pass):
     return Select_Any(CONSTANTS.USER_TABLE, "Pass", ["Pass"], [Pass])
 
 
+
+def Get_Login(UserInfo):
+    return Select_Any(CONSTANTS.USER_TABLE, "UID", ["Username","Pass"], UserInfo)
+
+
 # Get_Any searches U
 #
 #
@@ -33,12 +40,16 @@ def Select_Any(Table, Select_List, Attribute_List, Value_List):
     sql = "Select ({}) From {} Where {}"
     Where = Format_Where_Statement(Attribute_List, Value_List)
     sql = sql.format(Select_List, Table, Where)
+    print(sql)
     My_Cursor.execute(sql)
+    
+
 
     return Clean_Result(My_Cursor.fetchone())
 
 
 def Clean_Result(dirty):
+    print(dirty)
     if(dirty == None):
         return "none"
     return dirty[0]
@@ -50,7 +61,7 @@ def Format_Where_Statement(Attribute_List, Value_List):
 
     for x, y in zip(Attribute_List, Value_List):
         returner += sql.format(x, y)
-        returner += " and "
+        returner += " AND "
 
-    returner = returner[:-len(" and ")]
+    returner = returner[:-len(" AND ")]
     return (returner)
