@@ -32,6 +32,9 @@ def Get_Password(Pass):
 def Get_Login(UserInfo):
     return Select_Any(U_TABLE, "ID", ["Username","Pass"], UserInfo)
 
+def Get_Cart(UID):
+    return Select_Any(U_TABLE, "Cart", ["UID"], UID)
+
 
 # Get_Any searches U
 #
@@ -52,6 +55,11 @@ def Clean_Result(dirty):
         return "none"
     return dirty[0]
 
+# 
+# 
+# 
+# 
+# 
 
 def Format_Zip_List(Attribute_List, Value_List,Delimiter):
     sql = "({}) = '{}'"
@@ -77,6 +85,14 @@ def Format_Single_List(List,Delimiter):
     Returner = Returner[:-len(True_Delimiter)]
     return (Returner)
 
+# 
+# 
+# 
+
+# 
+
+# 
+# 
 
 def Update_Field(Table,Attribute_List, Value_List, ID_Type,ID):
     My_Cursor = DB.cursor()
