@@ -3,11 +3,10 @@ from re import A
 import sys
 import os
 from PY_Files import Create_User, Login_User, CONSTANTS, SQL_Queries
-
+from PY_Files import Product_Information
 
 from flask import Flask, jsonify, request, render_template, send_from_directory, redirect, url_for, session, flash
 
-from Product_Information import Get_Product_By_Catagory
 
 app = Flask(__name__)
 
@@ -25,11 +24,11 @@ def homepage():
     ################################################################################################
     # Call function to perform SQL Query on specified categories (returns array containing tuples) #
     #
-    art_products = Get_Product_By_Catagory(
+    art_products = Product_Information.Get_Product_By_Catagory(
         'Art')                                                  #
-    comic_products = Get_Product_By_Catagory(
+    comic_products = Product_Information.Get_Product_By_Catagory(
         'Comics')                                             #
-    toy_products = Get_Product_By_Catagory(
+    toy_products = Product_Information.Get_Product_By_Catagory(
         'Toys & Models')                                        #
 
     #####################################################################################
@@ -78,7 +77,7 @@ def login():
 
         account = Login_User.Login_User(username,passw)
         if account == "none":
-            flash('Incorrect User informatio')
+            flash('Incorrect User information')
         else:
             
             flash('Login Sucessful')
@@ -103,10 +102,15 @@ def register():
         state = request.form['state']
         phone_number = request.form['phone_number']
 
-        tempflash = Create_User.Create_User(
+        Flash_Code = Create_User.Create_User(
             username, email, password, first_name, last_name, street_address, state, phone_number)
+        Flash_Statement = Create_User.Login_Code_Statement(Flash_Code)
         # print(tempflash)
-        flash(tempflash)
+        flash(Flash_Statement)
+        if Flash_Code == 0:
+            return redirect(url_for('homepage'))
+
+
 
     return render_template('register_page.html')
 

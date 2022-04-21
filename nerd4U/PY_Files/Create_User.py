@@ -4,17 +4,18 @@ from PY_Files import SQL_Queries, REGEX
 # sql.format(USER_TABLE,UID,USERNAME,EMAIL,PASSWORD,FIRST,LAST,STREET,STATE,SCORE,PHONE,PRIMARY)
 def Create_User(Username, Email, Password, First, Last, Street, State, Phone):
     Code = Verify_Duplicate(Username, Email)
-    if (Code != 0):
-        return Dupe_Statement(Code)
+    if (Code == 0):
 
-    SQL_Queries.Push_To_User_Table(
-        Username, Email, Password, First, Last, Street, State, Phone)
-    return "User creation Successful"
+        SQL_Queries.Push_To_User_Table(
+            Username, Email, Password, First, Last, Street, State, Phone)
+    return Code
 
 # Returns a string from a Dupe code
 
 
-def Dupe_Statement(Dupe_Code):
+def Login_Code_Statement(Dupe_Code):
+    if (Dupe_Code == 0):
+        Dupe_Statement = "Registration Sucessful"
     if (Dupe_Code == 1):
         Dupe_Statement = "That Username is already in use"
     if (Dupe_Code == 2):
