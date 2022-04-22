@@ -43,46 +43,16 @@ def homepage():
         #########################################################################
 
         result = Product_Information.Get_Product_By_Tag(search_for)
-
         session["search"] = result
-
-        # Does it have an Art Category?
-
-        array_art = Product_Information.Get_Product_By_Category_If_Valid(result, '%Art%')
-        session["array_art"] = array_art
-
-        
-        # Does it have an Accessories Category?
-
-        array_acc = Product_Information.Get_Product_By_Category_If_Valid(result, '%Accessories%')
-        session["array_acc"] = array_acc
-
-        # Does it have an Comic Category?
-
-        array_com = Product_Information.Get_Product_By_Category_If_Valid(result, '%Comics%')
-        session["array_com"] = array_com
-
-        # Does it have an Trading Card Category?
-
-        array_trading = Product_Information.Get_Product_By_Category_If_Valid(result, "%Trading Card%")
-        session["array_trading"] = array_trading 
-
-        # Does it have an Toys and Models Category?
-
-        array_toys_and_models = Product_Information.Get_Product_By_Category_If_Valid(result, "%Toys & Models%")
-        session["array_toys_and_models"] = array_toys_and_models
 
         return redirect(url_for('searchpage'))
 
     ################################################################################################
     # Call function to perform SQL Query on specified categories (returns array containing tuples) #
-        #
-    art_products = Product_Information.Get_Product_By_Catagory(
-        'Art')                                                  #
-    comic_products = Product_Information.Get_Product_By_Catagory(
-        'Comics')                                             #
-    toy_products = Product_Information.Get_Product_By_Catagory(
-        'Toys & Models')                                        #
+    #
+    art_products = Product_Information.Get_Product_By_Catagory('Art')                                                  #
+    comic_products = Product_Information.Get_Product_By_Catagory('Comics')                                             #
+    toy_products = Product_Information.Get_Product_By_Catagory('Toys & Models')                                        #
 
     #####################################################################################
     # Recurse through each tuple, only returning the third data column (the image id's) #
@@ -153,7 +123,7 @@ def login():
 
 @app.route('/userRegristration', methods=['GET', 'POST'])
 def register():
-    print("WE ARE HERE")
+    
     if request.method == 'POST':
         # user_id = '#'
         # review_score = '#'
@@ -176,8 +146,43 @@ def register():
 @app.route('/searchpage', methods=['GET', 'POST'])
 def searchpage():
 
-    # If session["search"] is empty do not display any boxes
+    print("im in serachpage")
+    
+    if request.method == "POST" and request.form["searchfor"]:
+        searchfor = request.form["searchfor"]
+        print("Searching for " + searchfor + "")
+        result = Product_Information.Get_Product_By_Tag(searchfor)
+        array_art = Product_Information.Get_Product_By_Category_If_Valid(result, '%Art%')
+        array_acc = Product_Information.Get_Product_By_Category_If_Valid(result, '%Accessories%')
+        array_com = Product_Information.Get_Product_By_Category_If_Valid(result, '%Comics%')
+        array_trading = Product_Information.Get_Product_By_Category_If_Valid(result, '%Trading Card%')
+        array_toys_and_models = Product_Information.Get_Product_By_Category_If_Valid(result, '%Toys & Models%')
+        return render_template('searchpage.html', result = result
+                                                , array_art = array_art
+                                                , array_acc = array_acc
+                                                , array_com = array_com
+                                                , array_trading = array_trading
+                                                , array_toys_and_models = array_toys_and_models)
+    if request.method == "POST":
 
+        subcategory = request.form.getlist('sub_check')
+        print(subcategory)
+        result = session["search"]
+        array_art = session["array_art"]
+        array_acc = session["array_acc"]
+        array_com = session["array_com"]
+        array_trading = session["array_trading"]
+        array_toys_and_models = session["array_toys_and_models"]
+
+        # Remove Session search,array_art,... from having values
+
+        return render_template('searchpage.html', result = result
+                                                , array_art = array_art
+                                                , array_acc = array_acc
+                                                , array_com = array_com
+                                                , array_trading = array_trading
+                                                , array_toys_and_models = array_toys_and_models)
+    print("im out here")
     result = session["search"]
     array_art = session["array_art"]
     array_acc = session["array_acc"]
@@ -190,8 +195,7 @@ def searchpage():
                                             , array_com = array_com
                                             , array_trading = array_trading
                                             , array_toys_and_models = array_toys_and_models)
-
-
+    
 @app.route('/createListing', methods=['GET', 'POST'])
 def createListing():
 
