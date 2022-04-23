@@ -80,7 +80,7 @@ def login():
             flash('Incorrect User information')
         else:
             
-            flash('Login Sucessful')
+            flash('Login Sucessful UID:{}'.format(account))
             # Redirect to home page
             return redirect(url_for('homepage'))
             

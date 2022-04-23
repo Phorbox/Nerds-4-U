@@ -30,10 +30,10 @@ def Get_Password(Pass):
 
 
 def Get_Login(UserInfo):
-    return Select_Any(U_TABLE, "ID", ["Username","Pass"], UserInfo)
+    return Select_Any(U_TABLE, "UID", ["(Username)","(Pass)"], UserInfo)
 
 def Get_Cart(UID):
-    return Select_Any(U_TABLE, "Cart", ["UID"], UID)
+    return Select_Any(U_TABLE, "Cart", ["UID"], [UID])
 
 
 # Get_Any searches U
@@ -44,6 +44,7 @@ def Select_Any(Table, Select_List, Attribute_List, Value_List):
     sql = "Select ({}) From {} Where {}"
     Where = Format_Zip_List(Attribute_List, Value_List,"And")
     sql = sql.format(Select_List, Table, Where)
+    print (sql)
     My_Cursor.execute(sql)
     returner = My_Cursor.fetchone()
     # My_Cursor.close()
@@ -62,7 +63,7 @@ def Clean_Result(dirty):
 # 
 
 def Format_Zip_List(Attribute_List, Value_List,Delimiter):
-    sql = "({}) = '{}'"
+    sql = "{} = '{}'"
     returner = ""
     True_Delimiter = " {} ".format(Delimiter)
 
@@ -85,19 +86,11 @@ def Format_Single_List(List,Delimiter):
     Returner = Returner[:-len(True_Delimiter)]
     return (Returner)
 
-# 
-# 
-# 
-
-# 
-
-# 
-# 
 
 def Update_Field(Table,Attribute_List, Value_List, ID_Type,ID):
     My_Cursor = DB.cursor()
     update = "update {}".format(Table)
-    set = Format_Zip_List(Attribute_List, Value_List,",")
+    set = "set " + Format_Zip_List([Attribute_List], [Value_List],",")
     where = "Where {} = {}".format(ID_Type,ID)
     sql  = "{} {} {}".format(update,set,where)
     My_Cursor.execute(sql)
