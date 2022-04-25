@@ -121,3 +121,10 @@ def Fill_Cart(Cart_List):
     sql = sql.format(Sel_Value, P_TABLE, Where)
     My_Cursor.execute(sql)
     print(My_Cursor.fetchall())
+    
+def UserIdToUsername(uid):
+    My_Cursor = DB.cursor()
+    My_Cursor.execute(("SELECT * FROM user_information where UID = {} ".format(uid)))
+    user = My_Cursor.fetchone()
+    return (user)
+

@@ -8,7 +8,6 @@ from ast import literal_eval
 
 import mysql.connector
 from flask import Flask, jsonify, request, render_template, send_from_directory, redirect, url_for, session, flash
-from regex import E
 
 
 
@@ -252,8 +251,6 @@ def itempage(iteminfo):
     itemcount = len(shopcart)
     subtotal = 10
     return render_template('item_page.html', result=result,user = user, itemcount = itemcount, subtotal=subtotal)
-@app.route('/shoppingCart')
-def shoppingCart():
 
 @app.route('/shoppingCart')
 def ShoppingCart():
