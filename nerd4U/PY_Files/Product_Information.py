@@ -49,4 +49,9 @@ def Insert_New_Product(list_of_tags,title,description, image,price,quantity,cata
     cursor.execute(sql,val)
     db.commit()
 
-
+def strArrayToArray(array):
+    size = len(array)
+    for x in range(size):
+        if x == "/'":
+            print("there are " +i)
+            i+=1

@@ -2,6 +2,7 @@ import re
 from re import A
 import sys
 import os
+from ast import literal_eval
 
 #password: passwordtodb123!
 
@@ -239,6 +240,10 @@ def createListing():
         return redirect(url_for('homepage'))
 
     return render_template('Create_Listing.html')
-
+@app.route('/itempage/<iteminfo>', methods=['GET','POST'])
+def itempage(iteminfo):
+    #Product_Information.strArrayToArray(iteminfo)
+    print(iteminfo[0], flush=True)
+    return render_template('item_page.html')
 
 app.run(debug=True)
