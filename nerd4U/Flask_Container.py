@@ -90,34 +90,26 @@ def login():
         # Create variables for easy access
 
         username = request.form['username']
-        password = request.form['password']
+        passw = request.form['password']
 
-        cursor = DB.cursor()
-        cursor.execute(
-            'SELECT * FROM user_information WHERE username = %s AND pass = %s', (username, password))
-        # Fetch one record and return result
-        account = cursor.fetchone()
-        # If account exists in accounts table in our database
-        if account:
-
-            # Redirect to home page
-            flash('Login Successful!')
-            return redirect(url_for('homepage'))
+        account = Login_User.Login_User(username,passw)
+        if account == "none":
+            flash('Incorrect User information')
         else:
+            
+            flash('Login Sucessful UID:{}'.format(account))
+            # Redirect to home page
+            return redirect(url_for('homepage'))
+            
+    # Show the login form with message (if any)
 
-            # Account doesnt exist or username/password incorrect
-
-            flash('Login Unsuccessful')
-
-    return render_template('login.html')  # Display login page at url/userLogin
+    return render_template('login.html')
 
 
 @app.route('/userRegristration', methods=['GET', 'POST'])
 def register():
-    
     if request.method == 'POST':
-        # user_id = '#'
-        # review_score = '#'
+
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
@@ -127,9 +119,15 @@ def register():
         state = request.form['state']
         phone_number = request.form['phone_number']
 
-        tempflash = Create_User.Create_User(
+        Flash_Code = Create_User.Create_User(
             username, email, password, first_name, last_name, street_address, state, phone_number)
-        flash(tempflash)
+        Flash_Statement = Create_User.Login_Code_Statement(Flash_Code)
+        # print(tempflash)
+        flash(Flash_Statement)
+        if Flash_Code == 0:
+            return redirect(url_for('homepage'))
+
+
 
     return render_template('register_page.html')
 
