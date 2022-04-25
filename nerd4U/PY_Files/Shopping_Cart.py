@@ -5,39 +5,33 @@
 # paste pids into cart
 import SQL_Queries,CONSTANTS
 
-
+# adds PID to a shopping cart field in DB
 def Add_To_Cart(UID,PID):
     Cart = Pull_Cart(UID)
     Cart = Add_Item(Cart,PID)
     Push_Cart(Cart,UID)
 
+# 
 def Push_Cart(Temp_Cart,UID):
-
     SQL_Queries.Update_Field(CONSTANTS.USER_TABLE,"Cart",Temp_Cart,"UID",UID)
 
+# Makes a list from a cart's uid
 def Pull_Cart(UID):
     Cart_List = SQL_Queries.Get_Cart(UID)
     Cart_List = Cart_List[1:-1]
     Cart_List = Cart_List.split(',')
     Cart_List = Str_To_Lint(Cart_List)
-    
     return Cart_List
 
-def Add_Item(Cart, New_PID):
-    PID_Set = set(Cart)
+# adds a pid to a list cart
+def Add_Item(Cart_List, New_PID):
+    PID_Set = set(Cart_List)
     if New_PID not in PID_Set:
         PID_Set.add(New_PID)
-        Cart.insert(0,New_PID)
-    Cart.sort()
-    return Cart
+        Cart_List.insert(0,New_PID)
+    Cart_List.sort()
+    return Cart_List
 
-def Add_Item(Cart, New_PID):
-    PID_Set = set(Cart)
-    if New_PID not in PID_Set:
-        PID_Set.add(New_PID)
-        Cart.insert(0,New_PID)
-    Cart.sort()
-    return Cart
 
 def Str_To_Lint(String_List):
     for i in range(0, len(String_List)):
@@ -45,9 +39,7 @@ def Str_To_Lint(String_List):
     return String_List
 
 def Delete_From_Cart(UID,PID):
-    print("test")
     Cart = Pull_Cart(UID)
     Cart.remove(PID)
     Push_Cart(Cart,UID)
 
-Delete_From_Cart(130,1)

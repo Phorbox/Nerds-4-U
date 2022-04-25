@@ -1,10 +1,12 @@
 import mysql.connector
-from PY_Files import CONSTANTS
+import CONSTANTS
 DB = mysql.connector.connect(host=CONSTANTS.HOST, user=CONSTANTS.USER,
                              password=CONSTANTS.PASSWORD, database=CONSTANTS.DATABASE)
 
 U_TABLE = CONSTANTS.USER_TABLE
 P_TABLE = CONSTANTS.PROD_TABLE
+K_TABLE = CONSTANTS.KEYS_TABLE
+
 
 # sql.format(USER_TABLE,UID,USERNAME,EMAIL,PASSWORD,FIRST,LAST,STREET,STATE,SCORE,PHONE,PRIMARY)
 def Push_To_User_Table(Username, Email, Password, First, Last, Street, State, phone):
@@ -26,6 +28,9 @@ def Get_Username(Username):
 
 def Get_Password(Pass):
     return Select_Any(U_TABLE, "Pass", ["Pass"], [Pass])
+
+def Get_Password(Session_ID):
+    return Select_Any(K_TABLE, "Session_ID", ["Session_ID"], [Session_ID])
 
 
 
@@ -86,6 +91,18 @@ def Format_Single_List(List,Delimiter):
     Returner = Returner[:-len(True_Delimiter)]
     return (Returner)
 
+def Format_Half_Zip_List(Value,List,Delimiter):
+    sql = "{} = '{}'"
+    Returner = ""
+    True_Delimiter = " {} ".format(Delimiter)
+
+    for x in List:
+        Returner += sql.format(Value,x)
+        Returner += True_Delimiter
+
+    Returner = Returner[:-len(True_Delimiter)]
+    return (Returner)
+
 
 def Update_Field(Table,Attribute_List, Value_List, ID_Type,ID):
     My_Cursor = DB.cursor()
@@ -96,4 +113,11 @@ def Update_Field(Table,Attribute_List, Value_List, ID_Type,ID):
     My_Cursor.execute(sql)
     DB.commit()
 
-
+def Fill_Cart(Cart_List):
+    My_Cursor = DB.cursor()
+    sql = "Select {} From {} Where {}"
+    Sel_Value = "Name,Price,picture_id"
+    Where = Format_Half_Zip_List("PID",Cart_List," OR ")
+    sql = sql.format(Sel_Value, P_TABLE, Where)
+    My_Cursor.execute(sql)
+    print(My_Cursor.fetchall())

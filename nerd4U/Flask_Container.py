@@ -7,10 +7,9 @@ import os
 import mysql.connector
 from flask import Flask, jsonify, request, render_template, send_from_directory, redirect, url_for, session, flash
 
-from sympy import Product
 
 
-from PY_Files import Create_User, Login_User, CONSTANTS, SQL_Queries, Product_Information
+from PY_Files import Create_User, Login_User, CONSTANTS, SQL_Queries, Product_Information, Shopping_Cart
 
 
 app = Flask(__name__)
@@ -215,5 +214,14 @@ def createListing():
 
     return render_template('Create_Listing.html')
 
+@app.route('/shoppingCart')
+def ShoppingCart():
+    UID = session
+    cart  = Pull_Cart(UID)
+
+
+
+
+    return render_template('shopping_cart.html')
 
 app.run(debug=True)

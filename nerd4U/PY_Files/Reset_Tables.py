@@ -74,3 +74,5 @@ def Format_Statement(list):
     returner = returner[:-len(" , ")]
     return (returner)
 
+Drop_table(CONSTANTS.PROD_TABLE)
+Make_Prod_Table()
