@@ -3,7 +3,7 @@
 # convert string to list of Pid
 # get Select pids
 # paste pids into cart
-import SQL_Queries,CONSTANTS
+from PY_Files import SQL_Queries,CONSTANTS
 
 # adds PID to a shopping cart field in DB
 def Add_To_Cart(UID,PID):

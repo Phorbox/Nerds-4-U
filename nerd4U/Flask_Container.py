@@ -1,11 +1,14 @@
+import re
 from re import A
 import sys
 import os
+from ast import literal_eval
 
 #password: passwordtodb123!
 
 import mysql.connector
 from flask import Flask, jsonify, request, render_template, send_from_directory, redirect, url_for, session, flash
+from regex import E
 
 
 
@@ -18,8 +21,7 @@ app.secret_key = 'super secret key'
 
 # Connect to database
 
-DB = mysql.connector.connect(host=CONSTANTS.HOST, user=CONSTANTS.USER,
-                             password=CONSTANTS.PASSWORD, database=CONSTANTS.DATABASE)
+DB = mysql.connector.connect(host=CONSTANTS.HOST, user=CONSTANTS.USER,password=CONSTANTS.PASSWORD, database=CONSTANTS.DATABASE)
 ## Home Page ##
 
 
@@ -28,28 +30,18 @@ def homepage():
 
     if request.method == 'POST':
 
-        ##############################################################################
-        #                                                                            #
-        #   PRODUCT TABLE.CSV HAS WHITESPACE ON TAG COLUMNS USE "%{name}%" to NEGATE #
-        #   SPECIFICALLY, HAS \r added to it                                         #
-        ##############################################################################
 
         search_for = request.form['search_bar']
-
-        #########################################################################
-        # splicedString = search_for.split( " " )                               #
-        # split string that user is searching for, search for each individually #
-        #########################################################################
-
-        result = Product_Information.Get_Product_By_Tag(search_for)
-        session["search"] = result
+        session["search_for"] = search_for        
+        print(session["search_for"])
 
         return redirect(url_for('searchpage'))
 
     ################################################################################################
     # Call function to perform SQL Query on specified categories (returns array containing tuples) #
     #
-    art_products = Product_Information.Get_Product_By_Catagory('Art')                                                  #
+    art_products = Product_Information.Get_Product_By_Catagory('Art')   
+    print(art_products)                                               #
     comic_products = Product_Information.Get_Product_By_Catagory('Comics')                                             #
     toy_products = Product_Information.Get_Product_By_Catagory('Toys & Models')                                        #
 
@@ -84,7 +76,7 @@ def homepage():
 def send_image(filename):
 
     # Display images
-
+    print(filename)
     return send_from_directory("../Images", filename)
 
 
@@ -104,7 +96,7 @@ def login():
         if account == "none":
             flash('Incorrect User information')
         else:
-            
+            session["UID"] = account
             flash('Login Sucessful UID:{}'.format(account))
             # Redirect to home page
             return redirect(url_for('homepage'))
@@ -143,17 +135,24 @@ def register():
 @app.route('/searchpage', methods=['GET', 'POST'])
 def searchpage():
 
-    print("im in serachpage")
     
-    if request.method == "POST" and request.form["searchfor"]:
-        searchfor = request.form["searchfor"]
-        print("Searching for " + searchfor + "")
+    if request.method == "POST" and request.form['searchfor']:
+        searchfor = request.form['searchfor']
+        session["search_for"] = searchfor
+        print("in session search_for filled")
         result = Product_Information.Get_Product_By_Tag(searchfor)
+        print(result,flush=True)
+        session["result"] = result
         array_art = Product_Information.Get_Product_By_Category_If_Valid(result, '%Art%')
+        session["array_art"] = array_art
         array_acc = Product_Information.Get_Product_By_Category_If_Valid(result, '%Accessories%')
+        session["array_acc"] = array_acc
         array_com = Product_Information.Get_Product_By_Category_If_Valid(result, '%Comics%')
+        session["array_com"] = array_com
         array_trading = Product_Information.Get_Product_By_Category_If_Valid(result, '%Trading Card%')
+        session["array_trading"] = array_trading 
         array_toys_and_models = Product_Information.Get_Product_By_Category_If_Valid(result, '%Toys & Models%')
+        session["array_toys_and_models"] = array_toys_and_models
         return render_template('searchpage.html', result = result
                                                 , array_art = array_art
                                                 , array_acc = array_acc
@@ -161,31 +160,54 @@ def searchpage():
                                                 , array_trading = array_trading
                                                 , array_toys_and_models = array_toys_and_models)
     if request.method == "POST":
-
+        result = session["result"]
+        i=0
+        
         subcategory = request.form.getlist('sub_check')
-        print(subcategory)
-        result = session["search"]
-        array_art = session["array_art"]
-        array_acc = session["array_acc"]
-        array_com = session["array_com"]
-        array_trading = session["array_trading"]
-        array_toys_and_models = session["array_toys_and_models"]
+        for s in subcategory:
+            new_result = ()
+            subcat = s.split('-')[1]
+            for r in result:
+                new_result = new_result + tuple(Product_Information.Get_Product_By_SubCategory(subcat,r[1]))
+                
+        print(len(new_result))
+             
+        array_art = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Art%')
+        session["array_art"] = array_art
+        array_acc = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Accessories%')
+        session["array_acc"] = array_acc
+        array_com = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Comics%')
+        session["array_com"] = array_com
+        array_trading = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Trading Card%')
+        session["array_trading"] = array_trading 
+        array_toys_and_models = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Toys & Models%')
+        session["array_toys_and_models"] = array_toys_and_models
+
+        
 
         # Remove Session search,array_art,... from having values
 
-        return render_template('searchpage.html', result = result
+        return render_template('searchpage.html', result = new_result
                                                 , array_art = array_art
                                                 , array_acc = array_acc
                                                 , array_com = array_com
                                                 , array_trading = array_trading
                                                 , array_toys_and_models = array_toys_and_models)
-    print("im out here")
-    result = session["search"]
-    array_art = session["array_art"]
-    array_acc = session["array_acc"]
-    array_com = session["array_com"]
-    array_trading = session["array_trading"]
-    array_toys_and_models = session["array_toys_and_models"]
+
+    result = Product_Information.Get_Product_By_Tag(session["search_for"])
+    session["search_for"] = result
+    ## This line was causing problem as I was using session["result"] to get the result that they previously entered specifically when they clicked refreshed button so I can just query through that.
+    session["result"] = result
+    array_art = Product_Information.Get_Product_By_Category_If_Valid(result, '%Art%')
+    session["array_art"] = array_art
+    array_acc = Product_Information.Get_Product_By_Category_If_Valid(result, '%Accessories%')
+    session["array_acc"] = array_art
+    array_com = Product_Information.Get_Product_By_Category_If_Valid(result, '%Comics%')
+    session["array_com"] = array_com
+    array_trading = Product_Information.Get_Product_By_Category_If_Valid(result, '%Trading Card%')
+    session["array_trading"] = array_trading
+    array_toys_and_models = Product_Information.Get_Product_By_Category_If_Valid(result, '%Toys & Models%')
+    session["array_toys_and_models"] = array_toys_and_models
     return render_template('searchpage.html', result = result
                                             , array_art = array_art
                                             , array_acc = array_acc
@@ -199,20 +221,39 @@ def createListing():
     if request.method == 'POST':
 
         catagory = request.form['listingCategory']
+        subcatagory = request.form['listingCategory']
         print(catagory, flush=True)
         list_of_tags = request.form.getlist('boxes')
         title = request.form['title']
         print(title)
         description = request.form['desc']
+        description.replace(",", "|$|")
         image = request.form['image']
         dollar = request.form['dollar']
         cent = request.form['cent']
+        price = dollar + cent
+        print(price)
         quantity = request.form['quantity']
         Product_Information.Insert_New_Product(list_of_tags, title, description,
-                           image, dollar, cent, quantity)
+                           image, price, quantity,catagory, subcatagory)
         return redirect(url_for('homepage'))
 
     return render_template('Create_Listing.html')
+@app.route('/itempage/<iteminfo>', methods=['GET','POST'])
+def itempage(iteminfo):
+    #Product_Information.strArrayToArray(iteminfo)
+    result = Product_Information.strArrayToArray(iteminfo)
+    result[5] = result[5].replace('|$|', ",")
+    user = session["UID"]
+    seller = result[4]
+    user = SQL_Queries.UserIdToUsername(int(seller))
+   
+    shopcart =  Shopping_Cart.Pull_Cart(session["UID"])
+    itemcount = len(shopcart)
+    subtotal = 10
+    return render_template('item_page.html', result=result,user = user, itemcount = itemcount, subtotal=subtotal)
+@app.route('/shoppingCart')
+def shoppingCart():
 
 @app.route('/shoppingCart')
 def ShoppingCart():
