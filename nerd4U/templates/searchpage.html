@@ -12,7 +12,7 @@
             
             body {
                 background-color: lightgray;
-                background-image: url('background.png');
+                background-image: url('../templates/background.png');
                 background-repeat: no-repeat;
                 background-attachment: fixed;
                 background-size: 100%;
@@ -87,14 +87,14 @@
                                     <li><a class="dropdown-item" href="#">Trading Cards</a></li>
                                     <li><a class="dropdown-item" href="#">Toys &amp; Models</a></li>
                                 </ul>
-                                <input class="form-control" type="search" name="searchfor" placeholder="Search for art, accessories, comics, cards, toys, and more..." aria-label="Search">
+                                <input class="form-control" type="search" name="searchfor" id="searchfor" placeholder="Search for art, accessories, comics, cards, toys, and more..." aria-label="Search">
                                 <button class="btn btn-warning" type="submit" onclick=""><a href="/searchpage"><span class="bi bi-search"></a></span></button>
                             </div>
                             <li class="nav-item px-1">
-                                <a class="nav-link btn btn-dark fs-5" href="#"><span class="bi bi-tags-fill"></span></a>
+                                <a class="nav-link btn btn-dark fs-5" href="/createListing"><span class="bi bi-tags-fill"></span></a>
                             </li>
                             <li class="nav-item px-1">
-                                <a class="nav-link btn btn-dark fs-5" href="#"><span class="bi bi-person-fill"></span></a>
+                                <a class="nav-link btn btn-dark fs-5" href="/userLogin"><span class="bi bi-person-fill"></span></a>
                             </li>
                             <li class="nav-item px-1">
                                 <a class="nav-link btn btn-dark" href="#"><span class="bi bi-cart-fill fs-5"></span><span class="badge rounded-pill bg-secondary">0</span></a>
@@ -145,7 +145,7 @@
                                             <label class="form-check-label" for="art-mixedCheck"><input class="form-check-input" type="checkbox" id="art-mixedCheck" name="sub_check" value = "Art-Mixed" checked>Mixed Media <span class="badge border bg-body text-dark">0</span></label>
                                         </div>
                                         <div class="form-check">
-                                            <label class="form-check-label" for="art-photosCheck"><input class="form-check-input" type="checkbox" id="art-photosCheck" name="sub_check" value = "ArtPhotos" checked>Prints &amp; Photography <span class="badge border bg-body text-dark">0</span></label>
+                                            <label class="form-check-label" for="art-photosCheck"><input class="form-check-input" type="checkbox" id="art-photosCheck" name="sub_check" value = "Art-Photos" checked>Prints &amp; Photography <span class="badge border bg-body text-dark">0</span></label>
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label" for="art-sculptCheck"><input class="form-check-input" type="checkbox" id="art-sculptCheck" name="sub_check" value="Art-Sculpture"  checked>Sculptures <span class="badge border bg-body text-dark">0</span></label>
@@ -191,22 +191,22 @@
                                 <div id="comSubPanel" class="accordion-collapse collapse show" aria-labelledby="comHeading">
                                     <div class="accordion-body small pt-1">
                                         <div class="form-check">
-                                            <label class="form-check-label" for="com-actionCheck"><input class="form-check-input" type="checkbox" id="com-actionCheck" name="sub_check" value="Com-Action-Figures" checked>Action, Adventure &amp; Slice of Life <span class="badge border bg-body text-dark">0</span></label>
+                                            <label class="form-check-label" for="com-actionCheck"><input class="form-check-input" type="checkbox" id="com-actionCheck" name="sub_check" value="Com-Action" checked>Action, Adventure &amp; Slice of Life <span class="badge border bg-body text-dark">0</span></label>
                                         </div>
                                         <div class="form-check">
-                                            <label class="form-check-label" for="com-historyCheck"><input class="form-check-input" type="checkbox" id="com-historyCheck" name="sub_check" value="Com-Action-History" checked>Historical &amp; Non-fiction <span class="badge border bg-body text-dark">0</span></label>
+                                            <label class="form-check-label" for="com-historyCheck"><input class="form-check-input" type="checkbox" id="com-historyCheck" name="sub_check" value="Com-Historical" checked>Historical &amp; Non-fiction <span class="badge border bg-body text-dark">0</span></label>
                                         </div>
                                         <div class="form-check">
-                                            <label class="form-check-label" for="com-humorCheck"><input class="form-check-input" type="checkbox" id="com-humorCheck" name="sub_check" value="Com-Action-Humor" checked>Humor <span class="badge border bg-body text-dark">0</span></label>
+                                            <label class="form-check-label" for="com-humorCheck"><input class="form-check-input" type="checkbox" id="com-humorCheck" name="sub_check" value="Com-Humor" checked>Humor <span class="badge border bg-body text-dark">0</span></label>
                                         </div>
                                         <div class="form-check">
-                                            <label class="form-check-label" for="com-mangaCheck"><input class="form-check-input" type="checkbox" id="com-mangaCheck" name="sub_check" value="Com-Action-Manga"  checked>Manga &amp; Int'l Comics <span class="badge border bg-body text-dark">0</span></label>
+                                            <label class="form-check-label" for="com-mangaCheck"><input class="form-check-input" type="checkbox" id="com-mangaCheck" name="sub_check" value="Com-Manga"  checked>Manga &amp; Int'l Comics <span class="badge border bg-body text-dark">0</span></label>
                                         </div>
                                         <div class="form-check">
-                                            <label class="form-check-label" for="com-sciCheck"><input class="form-check-input" type="checkbox" id="com-sciCheck" name="sub_check" value="Com-Action-SciFi" checked>Sci-fi, Fantasy &amp; Horror <span class="badge border bg-body text-dark">0</span></label>
+                                            <label class="form-check-label" for="com-sciCheck"><input class="form-check-input" type="checkbox" id="com-sciCheck" name="sub_check" value="Com-Sci" checked>Sci-fi, Fantasy &amp; Horror <span class="badge border bg-body text-dark">0</span></label>
                                         </div>
                                         <div class="form-check">
-                                            <label class="form-check-label" for="com-superheroCheck"><input class="form-check-input" type="checkbox" id="com-superheroCheck" name="sub_check" value="Comc-Action-SciFi"  checked>Superhero <span class="badge border bg-body text-dark">0</span></label>
+                                            <label class="form-check-label" for="com-superheroCheck"><input class="form-check-input" type="checkbox" id="com-superheroCheck" name="sub_check" value="Com-Superhero"  checked>Superhero <span class="badge border bg-body text-dark">0</span></label>
                                         </div>
                                     </div>
                                 </div>
@@ -246,7 +246,7 @@
                                 <div id="toySubPanel" class="accordion-collapse collapse show" aria-labelledby="toyHeading">
                                     <div class="accordion-body small pt-1">
                                         <div class="form-check">
-                                            <label class="form-check-label" for="toy-actionCheck"><input class="form-check-input" type="checkbox" id="toy-actionCheck" name="sub_check" value="Toy-Action" checked>Action Figures &amp; Props <span class="badge border bg-body text-dark">0</span></label>
+                                            <label class="form-check-label" for="toy-actionCheck"><input class="form-check-input" type="checkbox" id="toy-actionCheck" name="sub_check" value="Toy-Figures" checked>Action Figures &amp; Props <span class="badge border bg-body text-dark">0</span></label>
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label" for="toy-dollsCheck"><input class="form-check-input" type="checkbox" id="toy-dollsCheck" name="sub_check" value="Toy-Dolls" checked>Dolls &amp; Plushies <span class="badge border bg-body text-dark">0</span></label>

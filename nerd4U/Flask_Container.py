@@ -1,3 +1,4 @@
+import re
 from re import A
 import sys
 import os
@@ -29,28 +30,18 @@ def homepage():
 
     if request.method == 'POST':
 
-        ##############################################################################
-        #                                                                            #
-        #   PRODUCT TABLE.CSV HAS WHITESPACE ON TAG COLUMNS USE "%{name}%" to NEGATE #
-        #   SPECIFICALLY, HAS \r added to it                                         #
-        ##############################################################################
 
         search_for = request.form['search_bar']
-
-        #########################################################################
-        # splicedString = search_for.split( " " )                               #
-        # split string that user is searching for, search for each individually #
-        #########################################################################
-
-        result = Product_Information.Get_Product_By_Tag(search_for)
-        session["search"] = result
+        session["search_for"] = search_for        
+        print(session["search_for"])
 
         return redirect(url_for('searchpage'))
 
     ################################################################################################
     # Call function to perform SQL Query on specified categories (returns array containing tuples) #
     #
-    art_products = Product_Information.Get_Product_By_Catagory('Art')                                                  #
+    art_products = Product_Information.Get_Product_By_Catagory('Art')   
+    print(art_products)                                               #
     comic_products = Product_Information.Get_Product_By_Catagory('Comics')                                             #
     toy_products = Product_Information.Get_Product_By_Catagory('Toys & Models')                                        #
 
@@ -146,17 +137,24 @@ def register():
 @app.route('/searchpage', methods=['GET', 'POST'])
 def searchpage():
 
-    print("im in serachpage")
     
-    if request.method == "POST" and request.form["searchfor"]:
-        searchfor = request.form["searchfor"]
-        print("Searching for " + searchfor + "")
+    if request.method == "POST" and request.form['searchfor']:
+        searchfor = request.form['searchfor']
+        session["search_for"] = searchfor
+        print("in session search_for filled")
         result = Product_Information.Get_Product_By_Tag(searchfor)
+        print(result,flush=True)
+        session["result"] = result
         array_art = Product_Information.Get_Product_By_Category_If_Valid(result, '%Art%')
+        session["array_art"] = array_art
         array_acc = Product_Information.Get_Product_By_Category_If_Valid(result, '%Accessories%')
+        session["array_acc"] = array_acc
         array_com = Product_Information.Get_Product_By_Category_If_Valid(result, '%Comics%')
+        session["array_com"] = array_com
         array_trading = Product_Information.Get_Product_By_Category_If_Valid(result, '%Trading Card%')
+        session["array_trading"] = array_trading 
         array_toys_and_models = Product_Information.Get_Product_By_Category_If_Valid(result, '%Toys & Models%')
+        session["array_toys_and_models"] = array_toys_and_models
         return render_template('searchpage.html', result = result
                                                 , array_art = array_art
                                                 , array_acc = array_acc
@@ -164,31 +162,58 @@ def searchpage():
                                                 , array_trading = array_trading
                                                 , array_toys_and_models = array_toys_and_models)
     if request.method == "POST":
-
+        result = session["result"]
+        i=0
+        
         subcategory = request.form.getlist('sub_check')
-        print(subcategory)
-        result = session["search"]
-        array_art = session["array_art"]
-        array_acc = session["array_acc"]
-        array_com = session["array_com"]
-        array_trading = session["array_trading"]
-        array_toys_and_models = session["array_toys_and_models"]
+        for s in subcategory:
+            new_result = ()
+            subcat = s.split('-')[1]
+            for r in result:
+                new_result = new_result + tuple(Product_Information.Get_Product_By_SubCategory(subcat,r[1]))
+                
+        print(len(new_result))
+        # Default code
+        # result = session["result"]  
+        # 
+        # Change bottom assignments to be of the updated results      
+        array_art = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Art%')
+        session["array_art"] = array_art
+        array_acc = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Accessories%')
+        session["array_acc"] = array_acc
+        array_com = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Comics%')
+        session["array_com"] = array_com
+        array_trading = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Trading Card%')
+        session["array_trading"] = array_trading 
+        array_toys_and_models = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Toys & Models%')
+        session["array_toys_and_models"] = array_toys_and_models
+
+        
 
         # Remove Session search,array_art,... from having values
 
-        return render_template('searchpage.html', result = result
+        return render_template('searchpage.html', result = new_result
                                                 , array_art = array_art
                                                 , array_acc = array_acc
                                                 , array_com = array_com
                                                 , array_trading = array_trading
                                                 , array_toys_and_models = array_toys_and_models)
-    print("im out here")
-    result = session["search"]
-    array_art = session["array_art"]
-    array_acc = session["array_acc"]
-    array_com = session["array_com"]
-    array_trading = session["array_trading"]
-    array_toys_and_models = session["array_toys_and_models"]
+
+    print("outside")
+    result = Product_Information.Get_Product_By_Tag(session["search_for"])
+    session["search_for"] = result
+    ## This line was causing problem as I was using session["result"] to get the result that they previously entered specifically when they clicked refreshed button so I can just query through that.
+    session["result"] = result
+    array_art = Product_Information.Get_Product_By_Category_If_Valid(result, '%Art%')
+    session["array_art"] = array_art
+    array_acc = Product_Information.Get_Product_By_Category_If_Valid(result, '%Accessories%')
+    session["array_acc"] = array_art
+    array_com = Product_Information.Get_Product_By_Category_If_Valid(result, '%Comics%')
+    session["array_com"] = array_com
+    array_trading = Product_Information.Get_Product_By_Category_If_Valid(result, '%Trading Card%')
+    session["array_trading"] = array_trading
+    array_toys_and_models = Product_Information.Get_Product_By_Category_If_Valid(result, '%Toys & Models%')
+    session["array_toys_and_models"] = array_toys_and_models
     return render_template('searchpage.html', result = result
                                             , array_art = array_art
                                             , array_acc = array_acc

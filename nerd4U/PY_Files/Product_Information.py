@@ -31,6 +31,14 @@ def Get_Product_By_Tag(tag):
     array = cursor.fetchall()
     return (array)
 
+def Get_Product_By_SubCategory(subcategory,title):
+    cursor = db.cursor()
+    #print("Title = " + title)
+    test = "" + str(title) + ""
+    cursor.execute("SELECT * FROM product_information where sub_category like '%" + subcategory + "%' AND  name like '" + test + "'")
+    array = cursor.fetchall()
+    return (array)
+
 def Insert_New_Product(list_of_tags,title,description, image,dollar,cent,quantity):
     
     cursor = db.cursor()
