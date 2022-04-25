@@ -236,6 +236,7 @@ def createListing():
         dollar = request.form['dollar']
         cent = request.form['cent']
         quantity = request.form['quantity']
+        print(dollar + " " + cent)
         Product_Information.Insert_New_Product(list_of_tags, title, description,
                            image, dollar, cent, quantity)
         return redirect(url_for('homepage'))
