@@ -26,7 +26,7 @@
             <nav class="navbar navbar-expand navbar-dark bg-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">Nerds4U</a>
-                    <ul class="navbar-nav container-fluid">
+                    <ul class="navbar-nav container-fluid p-0">
                         <div class="input-group p-2 col">
                             <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">All</button>
                             <ul class="dropdown-menu">
@@ -83,34 +83,34 @@
                 <ul class="col-12 list-group list-group-flush p-0">
                     <li class="list-group-item d-flex align-items-center">
                         <div class="form-check"><input class="form-check-input" type="checkbox" name="item1" checked></div>
-                        <div class="bg-body text-center" style="width: 10rem; height: 10em;">
+                        <div class="text-center" style="width: 10rem; height: 10em;">
                             <img src="pokemon.jpg" class="h-100">
                         </div>
-                        <p class="fs-6 m-0">Detective Comics No. 27</p>                        
+                        <p class="fs-6 m-0 ps-2">Detective Comics No. 27</p>                        
                         <p class="fs-6 text-end mb-0 ms-auto">&#36;420.69</p>
                     </li>
                     <li class="list-group-item d-flex align-items-center">
                         <div class="form-check"><input class="form-check-input" type="checkbox" name="item2" checked></div>
-                        <div class="bg-body text-center" style="width: 10rem; height: 10em;">
+                        <div class="text-center" style="width: 10rem; height: 10em;">
                             <img src="pokemon.jpg" class="h-100">
                         </div>
-                        <p class="fs-6 m-0">Batman Poster</p>                        
+                        <p class="fs-6 m-0 ps-2">Batman Poster</p>                        
                         <p class="fs-6 text-end mb-0 ms-auto">&#36;10.00</p>
                     </li>
                     <li class="list-group-item d-flex align-items-center">
                         <div class="form-check"><input class="form-check-input" type="checkbox" name="item3" checked></div>
-                        <div class="bg-body text-center" style="width: 10rem; height: 10em;">
+                        <div class="text-center" style="width: 10rem; height: 10em;">
                             <img src="pokemon.jpg" class="h-100">
                         </div>
-                        <p class="fs-6 m-0">LEGO Batcave</p>                        
+                        <p class="fs-6 m-0 ps-2">LEGO Batcave</p>                        
                         <p class="fs-6 text-end mb-0 ms-auto">&#36;10.0</p>
                     </li>
                     <li class="list-group-item d-flex align-items-center">
                         <div class="form-check"><input class="form-check-input" type="checkbox" name="item4" checked></div>
-                        <div class="bg-body text-center" style="width: 10rem; height: 10em;">
+                        <div class="text-center" style="width: 10rem; height: 10em;">
                             <img src="pokemon.jpg" class="h-100">
                         </div>
-                        <p class="fs-6 m-0">Hotwheels Batmobile</p>                        
+                        <p class="fs-6 m-0 ps-2">Hotwheels Batmobile</p>                        
                         <p class="fs-6 text-end mb-0 ms-auto">&#36;10.00</p>
                     </li>
                 </ul>
@@ -216,7 +216,7 @@
                             </div>
                             <div class="col-6 mb-3">
                                 <label for="cardNumber" class="form-label">Card Number</label>
-                                <input type="number" class="form-control" id="cardNumber" onchange="luhnCheck(this)" max="9999999999999999" required>
+                                <input type="number" class="form-control" id="cardNumber" oninput="luhnCheck(this)" max="9999999999999999" required>
                                 <div class="invalid-feedback">Invalid Card Number</div>
                             </div>
                             <div class="col-3 mb-3">
@@ -335,11 +335,8 @@
         <script>
             (function () {
                 'use strict'
-
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 var forms = document.querySelectorAll('.needs-validation')
-
-                // Loop over them and prevent submission
+                var cardNumber = document.querySelector('input[id=cardNumber]');
                 Array.prototype.slice.call(forms)
                     .forEach(function (form) {
                         form.addEventListener('submit', function (event) {
@@ -352,20 +349,23 @@
                     })
             })()
             function luhnCheck(cardNum){
-                var num = cardNum.value;
-                console.log(cardNum.value);
-                var sum;
-                for(let i=15; i>=0; i--){
-                    let d = num[i];
-                    if (i % 2 != 0)
+                let num = cardNum.value;
+                let sum = 0;
+                let isSecond = false;
+                for(let i=(num.length-1); i>=0; i--){
+                    let d = parseInt(num[i]);
+                    if (isSecond){
                         d *= 2;
-                    sum += d / 10;
-                    sum += d % 10;
+                        if (d > 9)
+                            d -= 9;
+                    }
+                    sum += d;
+                    isSecond = !isSecond;
                 }
-                if (sum % 10 == 0)
+                if (sum % 10 != 0)
                     cardNum.setCustomValidity("Invalid Card Number");
-                cardNum.validity.badInput = (sum % 10 == 0);
-                console.log(sum % 10 == 0);
+                else
+                    cardNum.setCustomValidity("");
             }
             function toggleBilling(billing){
                 var billInfo = document.querySelector('div[id=billInfo]');
