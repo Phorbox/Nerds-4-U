@@ -33,20 +33,19 @@ def Get_Product_By_Tag(tag):
 
 def Get_Product_By_SubCategory(subcategory,title):
     cursor = db.cursor()
-    #print("Title = " + title)
     test = "" + str(title) + ""
     cursor.execute("SELECT * FROM product_information where sub_category like '%" + subcategory + "%' AND  name like '" + test + "'")
     array = cursor.fetchall()
     return (array)
 
-def Insert_New_Product(list_of_tags,title,description, image,dollar,cent,quantity):
+def Insert_New_Product(list_of_tags,title,description, image,price,quantity,catagory,subcategory):
     
     cursor = db.cursor()
 
     sql="INSERT INTO product_information (name, price, picture_id, seller_id, description, quantity, remaining_item, catagory, sub_category, tags) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     
     #### CHANGE PRICE (DOLLAR) TO ACTUAL SUM OF DOLLAR + CENT
-    val = (title, dollar, image, 1, description, quantity, "10", "#", "#", str(list_of_tags))
+    val = (title, price, image, 1, description, quantity, quantity, catagory, subcategory, str(list_of_tags))
     cursor.execute(sql,val)
     db.commit()
 

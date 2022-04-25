@@ -86,7 +86,7 @@
                 </div>
                 <div class="col-6 mb-3">
                     <label for="listingSubcategory" class="form-label">Subcategory</label>
-                    <select class="form-select" id="listingSubcategory" onchange="showSubcatTags(this.value)" disabled required>
+                    <select class="form-select" name="listingSubcategory" id="listingSubcategory" onchange="showSubcatTags(this.value)" disabled required>
                         <option value="">-- Select</option>
                         <option hidden>Drawings &amp; Paintings</option>
                         <option hidden>Mixed Media</option>
@@ -1416,8 +1416,8 @@
                     <div class="input-group">
                         <span class="input-group-text">&#36;</span>
                         <input type="number" class="form-control" id="listingPrice-dollars"  name="dollar" placeholder="0" min="0" maxlength="9" required>
-                        <span class="input-group-text">.</span>
-                        <input type="number" class="form-control" id="listingPrice-cents"  name = "cent" value="00" min="0.00" max="0.99" step="0.01">
+                        <!-- <span class="input-group-text">.</span> -->
+                        <input type="number" class="form-control" id="listingPrice-cents"  name = "cent" value=".00" min="0.00" max="0.99" step="0.01">
                     </div>
                     <div class="form-text">Set the right price. We recommend a price based on recent sales of similar items.</div>
                 </div>

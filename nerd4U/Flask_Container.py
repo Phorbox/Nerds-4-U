@@ -20,8 +20,7 @@ app.secret_key = 'super secret key'
 
 # Connect to database
 
-DB = mysql.connector.connect(host=CONSTANTS.HOST, user=CONSTANTS.USER,
-                             password=CONSTANTS.PASSWORD, database=CONSTANTS.DATABASE)
+DB = mysql.connector.connect(host=CONSTANTS.HOST, user=CONSTANTS.USER,password=CONSTANTS.PASSWORD, database=CONSTANTS.DATABASE)
 ## Home Page ##
 
 
@@ -173,10 +172,7 @@ def searchpage():
                 new_result = new_result + tuple(Product_Information.Get_Product_By_SubCategory(subcat,r[1]))
                 
         print(len(new_result))
-        # Default code
-        # result = session["result"]  
-        # 
-        # Change bottom assignments to be of the updated results      
+             
         array_art = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Art%')
         session["array_art"] = array_art
         array_acc = Product_Information.Get_Product_By_Category_If_Valid(new_result, '%Accessories%')
@@ -199,7 +195,6 @@ def searchpage():
                                                 , array_trading = array_trading
                                                 , array_toys_and_models = array_toys_and_models)
 
-    print("outside")
     result = Product_Information.Get_Product_By_Tag(session["search_for"])
     session["search_for"] = result
     ## This line was causing problem as I was using session["result"] to get the result that they previously entered specifically when they clicked refreshed button so I can just query through that.
@@ -227,6 +222,7 @@ def createListing():
     if request.method == 'POST':
 
         catagory = request.form['listingCategory']
+        subcatagory = request.form['listingCategory']
         print(catagory, flush=True)
         list_of_tags = request.form.getlist('boxes')
         title = request.form['title']
@@ -235,10 +231,11 @@ def createListing():
         image = request.form['image']
         dollar = request.form['dollar']
         cent = request.form['cent']
+        price = dollar + cent
+        print(price)
         quantity = request.form['quantity']
-        print(dollar + " " + cent)
         Product_Information.Insert_New_Product(list_of_tags, title, description,
-                           image, dollar, cent, quantity)
+                           image, price, quantity,catagory, subcatagory)
         return redirect(url_for('homepage'))
 
     return render_template('Create_Listing.html')
