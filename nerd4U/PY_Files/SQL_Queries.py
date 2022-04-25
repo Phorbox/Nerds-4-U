@@ -96,4 +96,9 @@ def Update_Field(Table,Attribute_List, Value_List, ID_Type,ID):
     My_Cursor.execute(sql)
     DB.commit()
 
+def UserIdToUsername(uid):
+    My_Cursor = DB.cursor()
+    My_Cursor.execute(("SELECT * FROM user_information where UID = {} ".format(uid)))
+    user = My_Cursor.fetchone()
+    return (user)
 

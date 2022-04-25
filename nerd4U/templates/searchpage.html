@@ -9,7 +9,10 @@
         
         <title>Nerds4U</title>
         <style>
-            
+            a {
+                text-decoration: none;
+
+		    }
             body {
                 background-color: lightgray;
                 background-image: url('../templates/background.png');
@@ -668,7 +671,7 @@
                     </div>
                     <section class="container1">
                     {%for results in result%}
-                        <div class="card_box"><img class="box" src="{{url_for('send_image', filename=results[3]+'.jpg')}}"><p>{{results[1]}}</p></div>
+                        <a href="{{url_for('itempage', iteminfo=results)}}"><div class="card_box"><img class="box" src="{{url_for('send_image', filename=results[3]+'.jpg')}}"><p>{{results[1]}}</p></div></a>
                     {%endfor%}
                     </section>
                   

@@ -8,11 +8,13 @@ from ast import literal_eval
 
 import mysql.connector
 from flask import Flask, jsonify, request, render_template, send_from_directory, redirect, url_for, session, flash
+from regex import E
 
 from sympy import Product
 
 
-from PY_Files import Create_User, Login_User, CONSTANTS, SQL_Queries, Product_Information
+from PY_Files import Create_User, Login_User, CONSTANTS, SQL_Queries, Product_Information, Shopping_Cart
+
 
 
 app = Flask(__name__)
@@ -76,7 +78,7 @@ def homepage():
 def send_image(filename):
 
     # Display images
-
+    print(filename)
     return send_from_directory("../Images", filename)
 
 
@@ -96,7 +98,7 @@ def login():
         if account == "none":
             flash('Incorrect User information')
         else:
-            
+            session["UID"] = account
             flash('Login Sucessful UID:{}'.format(account))
             # Redirect to home page
             return redirect(url_for('homepage'))
@@ -227,6 +229,7 @@ def createListing():
         title = request.form['title']
         print(title)
         description = request.form['desc']
+        description.replace(",", "|$|")
         image = request.form['image']
         dollar = request.form['dollar']
         cent = request.form['cent']
@@ -241,7 +244,19 @@ def createListing():
 @app.route('/itempage/<iteminfo>', methods=['GET','POST'])
 def itempage(iteminfo):
     #Product_Information.strArrayToArray(iteminfo)
-    print(iteminfo[0], flush=True)
-    return render_template('item_page.html')
+    result = Product_Information.strArrayToArray(iteminfo)
+    result[5] = result[5].replace('|$|', ",")
+    user = session["UID"]
+    seller = result[4]
+    user = SQL_Queries.UserIdToUsername(int(seller))
+   
+    shopcart =  Shopping_Cart.Pull_Cart(session["UID"])
+    itemcount = len(shopcart)
+    subtotal = 10
+    return render_template('item_page.html', result=result,user = user, itemcount = itemcount, subtotal=subtotal)
+@app.route('/shoppingCart')
+def shoppingCart():
+
+    return render_template('shopping_cart.html')
 
 app.run(debug=True)

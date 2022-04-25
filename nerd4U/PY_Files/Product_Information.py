@@ -50,8 +50,11 @@ def Insert_New_Product(list_of_tags,title,description, image,price,quantity,cata
     db.commit()
 
 def strArrayToArray(array):
-    size = len(array)
-    for x in range(size):
-        if x == "/'":
-            print("there are " +i)
-            i+=1
+    new_array = []
+    array = array[1:-1]
+    array = array.split(',')
+    for i in range(0,len(array)):
+        array[i] = array[i].strip()
+        new_array.append(array[i].strip("'"))
+        print(new_array[i])
+    return new_array

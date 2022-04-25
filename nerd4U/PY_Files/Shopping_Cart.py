@@ -3,7 +3,7 @@
 # convert string to list of Pid
 # get Select pids
 # paste pids into cart
-import SQL_Queries,CONSTANTS
+from PY_Files import SQL_Queries,CONSTANTS
 
 
 def Add_To_Cart(UID,PID):
@@ -50,4 +50,3 @@ def Delete_From_Cart(UID,PID):
     Cart.remove(PID)
     Push_Cart(Cart,UID)
 
-Delete_From_Cart(130,1)
