@@ -34,6 +34,7 @@ def Add_Item(Cart_List, New_PID):
 
 
 def Str_To_Lint(String_List):
+    print(String_List)
     for i in range(0, len(String_List)):
         String_List[i] = int(String_List[i])
     return String_List
@@ -42,4 +43,18 @@ def Delete_From_Cart(UID,PID):
     Cart = Pull_Cart(UID)
     Cart.remove(PID)
     Push_Cart(Cart,UID)
+
+def Get_Shopping_Products(Cart_List):
+    return SQL_Queries.Fill_Cart(Cart_List)
+
+def Total_Shopping_Cart(Cart_List):
+    total = 0
+    if Cart_Is_Empty(Cart_List):
+        return 0
+    for each in Cart_List:
+        total += each
+    return total
+
+def Cart_Is_Empty(Cart):
+    return len(Cart) == 0
 

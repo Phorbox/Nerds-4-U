@@ -1,5 +1,5 @@
 import mysql.connector
-import CONSTANTS
+from PY_Files import CONSTANTS
 DB = mysql.connector.connect(host=CONSTANTS.HOST, user=CONSTANTS.USER,
                              password=CONSTANTS.PASSWORD, database=CONSTANTS.DATABASE)
 
@@ -49,7 +49,6 @@ def Select_Any(Table, Select_List, Attribute_List, Value_List):
     sql = "Select ({}) From {} Where {}"
     Where = Format_Zip_List(Attribute_List, Value_List,"And")
     sql = sql.format(Select_List, Table, Where)
-    print (sql)
     My_Cursor.execute(sql)
     returner = My_Cursor.fetchone()
     # My_Cursor.close()
@@ -120,8 +119,8 @@ def Fill_Cart(Cart_List):
     Where = Format_Half_Zip_List("PID",Cart_List," OR ")
     sql = sql.format(Sel_Value, P_TABLE, Where)
     My_Cursor.execute(sql)
-    print(My_Cursor.fetchall())
-    
+    return My_Cursor.fetchall()
+
 def UserIdToUsername(uid):
     My_Cursor = DB.cursor()
     My_Cursor.execute(("SELECT * FROM user_information where UID = {} ".format(uid)))

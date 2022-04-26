@@ -26,7 +26,6 @@ def Get_Product_By_Category_If_Valid(array, category):
 
 def Get_Product_By_Tag(tag):
     cursor = db.cursor()
-    print(tag)
     cursor.execute("SELECT * FROM product_information where tags like '%" + tag + "%'")
     array = cursor.fetchall()
     return (array)
@@ -56,5 +55,5 @@ def strArrayToArray(array):
     for i in range(0,len(array)):
         array[i] = array[i].strip()
         new_array.append(array[i].strip("'"))
-        print(new_array[i])
+    
     return new_array

@@ -9,6 +9,11 @@
         
         <title>Nerds4U</title>
         <style>
+            img{
+                object-fit: cover;
+                width: 160px;
+            }
+
             body {
                 background-color: lightgray;
                 background-image: url('background.png');
@@ -74,22 +79,25 @@
             <div class="row m-0">
                 <div class="d-flex align-items-center p-0">
                     <legend class="col-6 mb-3 p-0">Shopping Cart</legend>
-                    <p class="col text-end fw-bold pe-3">Subtotal (4 items): &#36;450.69</p>        
+                    <p class="col text-end fw-bold pe-3">Subtotal ({{leng}} items): &#36;{{totes}}</p>        
                     <div class="col-auto mb-3">
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkout">Proceed to Checkout</button>
                     </div>
                 </div>
                 <hr class="m-0">
                 <ul class="col-12 list-group list-group-flush p-0">
+                    {%for x in Tuple_List%}
                     <li class="list-group-item d-flex align-items-center">
                         <div class="form-check"><input class="form-check-input" type="checkbox" name="item1" checked></div>
                         <div class="text-center" style="width: 10rem; height: 10em;">
-                            <img src="pokemon.jpg" class="h-100">
+                            <img src="{{url_for('send_image', filename=x[2]+'.jpg')}}" class="h-100">
                         </div>
-                        <p class="fs-6 m-0 ps-2">Detective Comics No. 27</p>                        
-                        <p class="fs-6 text-end mb-0 ms-auto">&#36;420.69</p>
+                        <p class="fs-6 m-0 ps-2">{{x[0]}}</p>                        
+                        <p class="fs-6 text-end mb-0 ms-auto">&#36;{{x[1]}}</p>
+                    
                     </li>
-                    <li class="list-group-item d-flex align-items-center">
+                    {%endfor%}
+                    <!-- <li class="list-group-item d-flex align-items-center">
                         <div class="form-check"><input class="form-check-input" type="checkbox" name="item2" checked></div>
                         <div class="text-center" style="width: 10rem; height: 10em;">
                             <img src="pokemon.jpg" class="h-100">
@@ -112,10 +120,10 @@
                         </div>
                         <p class="fs-6 m-0 ps-2">Hotwheels Batmobile</p>                        
                         <p class="fs-6 text-end mb-0 ms-auto">&#36;10.00</p>
-                    </li>
+                    </li> -->
                 </ul>
                 <hr>
-                <p class="text-end p-0">Subtotal (4 items): &#36;450.69</p>
+                <p class="text-end p-0">total ({{leng}} items): &#36;{{taxed}}</p>
                 <div class="text-end p-0"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkout">Proceed to Checkout</button></div>
             </div>
         </form>
@@ -130,18 +138,18 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <legend class="text-danger mb-3">Total (4 Items): &#36;487.27</legend>
+                            <legend class="text-danger mb-3">Total ({{leng}} Items): &#36;{{taxed}}</legend>
                             <div class="col-6 mb-3">
                                 <label for="shipAddr" class="form-label">Shipping Address</label>
-                                <input type="text" class="form-control" id="shipAddr" required>
+                                <input type="text" class="form-control" id="shipAddr" maxlength="255" required>
                             </div>
                             <div class="col-6 mb-3">
                                 <label for="shipApt" class="form-label">Apt/Suite</label>
-                                <input type="text" class="form-control" id="shipApt">
+                                <input type="text" class="form-control" maxlength="255" id="shipApt">
                             </div>
                             <div class="col-6 mb-3">
                                 <label for="shipCity" class="form-label">City</label>
-                                <input type="text" class="form-control" id="shipCity" required>
+                                <input type="text" class="form-control" id="shipCity" maxlength="255" required>
                             </div>
                             <div class="col-3 mb-3">
                                 <label for="shipState" class="form-label">State</label>
@@ -202,11 +210,11 @@
                             </div>
                             <div class="col-3 mb-3">
                                 <label for="shipZip" class="form-label">ZIP Code</label>
-                                <input type="number" class="form-control" id="shipZip" required>
+                                <input type="number" class="form-control" id="shipZip" maxlength="255" required>
                             </div>
                             <div class="col-3 mb-3">
                                 <label for="cardProvider" class="form-label">Card Provider</label>
-                                <select class="form-select" id="cardProvider" required>
+                                <select class="form-select" id="cardProvider"  required>
                                     <option value="">--</option>
                                     <option value="amex">American Express</option>
                                     <option value="disc">Discover</option>
@@ -216,12 +224,12 @@
                             </div>
                             <div class="col-6 mb-3">
                                 <label for="cardNumber" class="form-label">Card Number</label>
-                                <input type="number" class="form-control" id="cardNumber" oninput="luhnCheck(this)" max="9999999999999999" required>
+                                <input type="number" class="form-control" id="cardNumber" oninput="luhnCheck(this)" max="16" required>
                                 <div class="invalid-feedback">Invalid Card Number</div>
                             </div>
                             <div class="col-3 mb-3">
                                 <label for="cvv" class="form-label">CVV</label>
-                                <input type="number" class="form-control" id="cvv" required>
+                                <input type="number" class="form-control" id="cvv" max="16" required>
                             </div>
                             <div class="col-12 mb-3">
                                 <label for="cardholder" class="form-label">Cardholder Name <small>(Name printed on front of card)</small></label>
