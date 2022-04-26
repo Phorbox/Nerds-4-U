@@ -29,13 +29,14 @@ def Get_Username(Username):
 def Get_Password(Pass):
     return Select_Any(U_TABLE, "Pass", ["Pass"], [Pass])
 
+
 def Get_Password(Session_ID):
     return Select_Any(K_TABLE, "Session_ID", ["Session_ID"], [Session_ID])
 
 
-
 def Get_Login(UserInfo):
-    return Select_Any(U_TABLE, "UID", ["(Username)","(Pass)"], UserInfo)
+    return Select_Any(U_TABLE, "UID", ["(Username)", "(Pass)"], UserInfo)
+
 
 def Get_Cart(UID):
     return Select_Any(U_TABLE, "Cart", ["UID"], [UID])
@@ -47,7 +48,7 @@ def Get_Cart(UID):
 def Select_Any(Table, Select_List, Attribute_List, Value_List):
     My_Cursor = DB.cursor()
     sql = "Select ({}) From {} Where {}"
-    Where = Format_Zip_List(Attribute_List, Value_List,"And")
+    Where = Format_Zip_List(Attribute_List, Value_List, "And")
     sql = sql.format(Select_List, Table, Where)
     My_Cursor.execute(sql)
     returner = My_Cursor.fetchone()
@@ -60,13 +61,8 @@ def Clean_Result(dirty):
         return "none"
     return dirty[0]
 
-# 
-# 
-# 
-# 
-# 
 
-def Format_Zip_List(Attribute_List, Value_List,Delimiter):
+def Format_Zip_List(Attribute_List, Value_List, Delimiter):
     sql = "{} = '{}'"
     returner = ""
     True_Delimiter = " {} ".format(Delimiter)
@@ -78,7 +74,8 @@ def Format_Zip_List(Attribute_List, Value_List,Delimiter):
     returner = returner[:-len(True_Delimiter)]
     return (returner)
 
-def Format_Single_List(List,Delimiter):
+
+def Format_Single_List(List, Delimiter):
     sql = "{}"
     Returner = ""
     True_Delimiter = " {} ".format(Delimiter)
@@ -90,40 +87,43 @@ def Format_Single_List(List,Delimiter):
     Returner = Returner[:-len(True_Delimiter)]
     return (Returner)
 
-def Format_Half_Zip_List(Value,List,Delimiter):
+
+def Format_Half_Zip_List(Value, List, Delimiter):
     sql = "{} = '{}'"
     Returner = ""
     True_Delimiter = " {} ".format(Delimiter)
 
     for x in List:
-        Returner += sql.format(Value,x)
+        Returner += sql.format(Value, x)
         Returner += True_Delimiter
 
     Returner = Returner[:-len(True_Delimiter)]
     return (Returner)
 
 
-def Update_Field(Table,Attribute_List, Value_List, ID_Type,ID):
+def Update_Field(Table, Attribute_List, Value_List, ID_Type, ID):
     My_Cursor = DB.cursor()
     update = "update {}".format(Table)
-    set = "set " + Format_Zip_List([Attribute_List], [Value_List],",")
-    where = "Where {} = {}".format(ID_Type,ID)
-    sql  = "{} {} {}".format(update,set,where)
+    set = "set " + Format_Zip_List([Attribute_List], [Value_List], ",")
+    where = "Where {} = {}".format(ID_Type, ID)
+    sql = "{} {} {}".format(update, set, where)
     My_Cursor.execute(sql)
     DB.commit()
+
 
 def Fill_Cart(Cart_List):
     My_Cursor = DB.cursor()
     sql = "Select {} From {} Where {}"
     Sel_Value = "Name,Price,picture_id"
-    Where = Format_Half_Zip_List("PID",Cart_List," OR ")
+    Where = Format_Half_Zip_List("PID", Cart_List, " OR ")
     sql = sql.format(Sel_Value, P_TABLE, Where)
     My_Cursor.execute(sql)
     return My_Cursor.fetchall()
 
+
 def UserIdToUsername(uid):
     My_Cursor = DB.cursor()
-    My_Cursor.execute(("SELECT * FROM user_information where UID = {} ".format(uid)))
+    My_Cursor.execute(
+        ("SELECT * FROM user_information where UID = {} ".format(uid)))
     user = My_Cursor.fetchone()
     return (user)
-

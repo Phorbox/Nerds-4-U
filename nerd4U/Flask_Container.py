@@ -267,7 +267,7 @@ def ShoppingCart():
     taxv = round(total * 0.0825, 2)
     tax = ("TAX 8.25%", taxv, "TAX")
     Shipping = ("SHIPPING 5.89 per Item", length * 5.89, "SHIPPING")
-    T_Total = total + taxv + Shipping[1]
+    T_Total = round(total + taxv + Shipping[1],2)
     Filled.append(tax)
     Filled.append(Shipping)
 
