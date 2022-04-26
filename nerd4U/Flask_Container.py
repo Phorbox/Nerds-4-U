@@ -264,12 +264,14 @@ def ShoppingCart():
     Filled = Shopping_Cart.Get_Shopping_Products(Cart)
     length = len(Filled)
     total = Shopping_Cart.Total_Shopping_Cart(Cart)
-    taxv = round(total * 0.0825,2)
-    tax = ("TAX",taxv,"TAX")
-    T_Total = total + taxv
+    taxv = round(total * 0.0825, 2)
+    tax = ("TAX 8.25%", taxv, "TAX")
+    Shipping = ("SHIPPING 5.89 per Item", length * 5.89, "SHIPPING")
+    T_Total = total + taxv + Shipping[1]
     Filled.append(tax)
+    Filled.append(Shipping)
 
-    return render_template('shopping_cart.html', Tuple_List=Filled, leng = length, totes = total, taxed = T_Total)
+    return render_template('shopping_cart.html', Tuple_List=Filled, leng=length, totes=total, taxed=T_Total)
 
 
 app.run(debug=True)
