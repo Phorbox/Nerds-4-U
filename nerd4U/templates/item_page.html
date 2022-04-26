@@ -9,6 +9,17 @@
         
         <title>Nerds4U</title>
         <style>
+            div img {
+			object-fit:cover;
+			top:0px;
+			width:20rem;
+			height:200px;
+			border-radius:5px;
+            border-bottom-right-radius: 5px;
+            padding-right:20px;
+            flex-wrap:wrap;
+            
+		    }
             body {
                 background-color: lightgray;
                 background-image: url('background.png');
@@ -72,18 +83,18 @@
         
         <div class="container d-flex shadow-lg rounded-3 bg-body p-3 mb-5">
             <div class="col-auto">
-                <div class="bg-body text-center" style="width: 20vw; height: 20vw;">
+                <div class="bg-body text-center" >
 <!-- Image goes in here --->
-                    <img src="" class="h-100">
+                    <img src="{{url_for('send_image', filename=result[3]+'.jpg')}}" class="h-100">
                 </div>
-                <h6 class="small mt-1 mb-0">Seller: seller_id.name</h6>
+                <h6 class="small mt-1 mb-0">Seller: {{user[1]}}</h6>
             </div>
             <div class="col px-3">
-                <legend class="fs-3">Detective Comics No. 27</legend>
+                <legend class="fs-3">{{result[1]}}</legend>
                 <hr class="my-0">
                 <div class="d-flex justify-content-between">
-                    <h5 class="text-danger pt-1">Price: &#36;420.69</h5>
-                    <p class="fs-5 text-end">Qty Available: 1</p>
+                    <h5 class="text-danger pt-1">Price: &#36;{{result[2]}}</h5>
+                    <p class="fs-5 text-end">Qty Available: {{result[7]}}</p>
                 </div>
                 <div class="row">
                     <div class="col-auto">
@@ -92,14 +103,14 @@
                         <p class="fw-bold">Tags</p>
                     </div>
                     <div class="col">
-                        <p>Comics</p>
-                        <p>Superhero</p>
-                        <p>DC, GOLDEN-AGE, PRE-CRISIS</p>
+                        <p>{{result[8]}}</p>
+                        <p>{{result[9]}}</p>
+                        <p>{{result[10]}}</p>
                     </div>
                 </div>
                 <hr class="mt-0">
                 <h6>About this item</h6>
-                <p>Copypasta is a term for a block of text that has been copied and pasted multiple times. It is often jumbled, disjointed or ridiculous in some way. Copypasta makes its way across a social media platform, forum or email chain to reach multiple users.Copypasta is a term for a block of text that has been copied and pasted multiple times. It is often jumbled, disjointed or ridiculous in some way.</p>
+                <p>{{result[5]}}</p>
             </div>
             <div class="col-auto">
 <!-- show by default, hide when item already in cart -->
@@ -113,9 +124,9 @@
                             <p class="text-end mb-0">&#61;</p>
                         </div>
                         <div class="col ps-0">
-                            <p class="mb-1">3</p>
-                            <p class="mb-1">&#36;30.00</p>
-                            <p class="text-danger mb-1">&#36;420.69</p>
+                            <p class="mb-1">{{itemcount}}</p>
+                            <p class="mb-1">&#36;{{subtotal}}</p>
+                            <p class="text-danger mb-1">&#36;{{result[2]}}</p>
                             <p class="mb-1">&#36;450.69</p>
                         </div>
                     </div>
@@ -132,9 +143,11 @@
                             <p class="text-end mb-0">&#61;</p>
                         </div>
                         <div class="col ps-0">
-                            <p class="mb-1">4</p>
-                            <p class="mb-1">&#36;450.69</p>
-                            <p class="text-danger mb-1">&#36;420.69</p>
+                         
+                            <p class="mb-1">{itemcount}</p>
+                            <p class="mb-1">&#36;{subtotal}</p>
+                            
+                            <p class="text-danger mb-1">&#36;{{result[2]}}</p>
                             <p class="mb-1">&#36;30.00</p>
                         </div>
                     </div>
